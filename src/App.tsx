@@ -9,6 +9,14 @@ import Snackbar from 'components/@extended/Snackbar';
 // auth provider
 import { JWTProvider as AuthProvider } from 'contexts/JWTContext';
 
+// react-query provider
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: { staleTime: 1000 * 60 * 60 * 24, refetchOnMount: false, refetchOnReconnect: false, refetchOnWindowFocus: false }
+  }
+});
+
 // ==============================|| APP - THEME, ROUTER, LOCAL  ||============================== //
 
 const App = () => (
@@ -16,12 +24,14 @@ const App = () => (
     {/* <RTLLayout> */}
     <Locales>
       <ScrollTop>
-        <AuthProvider>
-          <>
-            <Routes />
-            <Snackbar />
-          </>
-        </AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <>
+              <Routes />
+              <Snackbar />
+            </>
+          </AuthProvider>
+        </QueryClientProvider>
       </ScrollTop>
     </Locales>
     {/* </RTLLayout> */}

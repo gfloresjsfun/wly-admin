@@ -6,14 +6,16 @@ import CommonLayout from 'layout/CommonLayout';
 import Loadable from 'components/Loadable';
 import AuthGuard from 'utils/route-guard/AuthGuard';
 
+// render - sample page
+import { Navigate } from 'react-router';
+
 // pages routing
 const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/404')));
 const MaintenanceError500 = Loadable(lazy(() => import('pages/maintenance/500')));
 const MaintenanceUnderConstruction = Loadable(lazy(() => import('pages/maintenance/under-construction')));
 const MaintenanceComingSoon = Loadable(lazy(() => import('pages/maintenance/coming-soon')));
 
-// render - sample page
-const SamplePage = Loadable(lazy(() => import('pages/extra-pages/sample-page')));
+const Shows = Loadable(lazy(() => import('pages/shows')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -29,8 +31,8 @@ const MainRoutes = {
       ),
       children: [
         {
-          path: 'sample-page',
-          element: <SamplePage />
+          path: 'shows',
+          element: <Shows />
         }
       ]
     },
@@ -55,6 +57,10 @@ const MainRoutes = {
           element: <MaintenanceComingSoon />
         }
       ]
+    },
+    {
+      path: '*',
+      element: <Navigate to="/maintenance/404" />
     }
   ]
 };

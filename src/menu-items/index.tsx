@@ -1,11 +1,11 @@
 // project import
-import other from './other';
+import admin from './admin';
 import { NavItemType } from 'types/menu';
 
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems: { items: NavItemType[] } = {
-  items: [other]
+  items: [admin]
 };
 
 export default menuItems;

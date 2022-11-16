@@ -15,7 +15,7 @@ export const JWT_API = {
 // ==============================|| THEME CONFIG  ||============================== //
 
 const config: DefaultConfigProps = {
-  defaultPath: '/sample-page',
+  defaultPath: '/shows',
   fontFamily: `'Public Sans', sans-serif`,
   i18n: 'en',
   miniDrawer: false,
