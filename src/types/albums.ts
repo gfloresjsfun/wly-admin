@@ -6,3 +6,5 @@ export interface IAlbum {
   coverS3Url: string;
   shows: [IShow];
 }
+
+export interface AlbumCardProps extends IAlbum {}
