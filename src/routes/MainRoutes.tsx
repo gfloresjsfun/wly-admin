@@ -38,6 +38,10 @@ const MainRoutes = {
             {
               path: 'create',
               element: <Shows />
+            },
+            {
+              path: ':id/edit',
+              element: <Shows />
             }
           ]
         },

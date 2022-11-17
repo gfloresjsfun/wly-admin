@@ -5,6 +5,7 @@ import Locales from 'components/Locales';
 // import RTLLayout from 'components/RTLLayout';
 import ScrollTop from 'components/ScrollTop';
 import Snackbar from 'components/@extended/Snackbar';
+import { ConfirmProvider } from 'material-ui-confirm';
 
 // auth provider
 import { JWTProvider as AuthProvider } from 'contexts/JWTContext';
@@ -25,12 +26,14 @@ const App = () => (
     <Locales>
       <ScrollTop>
         <QueryClientProvider client={queryClient}>
-          <AuthProvider>
-            <>
-              <Routes />
-              <Snackbar />
-            </>
-          </AuthProvider>
+          <ConfirmProvider>
+            <AuthProvider>
+              <>
+                <Routes />
+                <Snackbar />
+              </>
+            </AuthProvider>
+          </ConfirmProvider>
         </QueryClientProvider>
       </ScrollTop>
     </Locales>
