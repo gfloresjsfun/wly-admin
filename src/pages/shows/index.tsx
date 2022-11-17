@@ -6,10 +6,13 @@ import MainCard from 'components/MainCard';
 import ShowsTable from 'sections/shows/ShowsTable';
 import ShowDialog from 'sections/shows/ShowDialog';
 import { getShows } from '_api/shows';
+import useDeferredValue from 'hooks/utils/useDeferredValue';
 
 const Shows: React.FC = () => {
   const [q, setQ] = useState('');
-  const { isLoading, data = [] } = useQuery({ queryKey: ['shows', q], queryFn: () => getShows(q) });
+  const deferredQ = useDeferredValue(q);
+  console.log('deferredQ :', deferredQ);
+  const { isLoading, data = [] } = useQuery({ queryKey: ['shows', deferredQ], queryFn: () => getShows(q) });
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const handleOpen = useCallback(() => {
