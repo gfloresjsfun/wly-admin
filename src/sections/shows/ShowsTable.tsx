@@ -1,7 +1,7 @@
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Column, useTable } from 'react-table';
 import MainCard from 'components/MainCard';
 import ScrollX from 'components/ScrollX';
-import { Column, useTable } from 'react-table';
 
 function ReactTable({ columns, data, striped }: any) {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({

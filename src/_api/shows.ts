@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { IShow, NewShow } from 'types/shows';
 
-export const getShows = async () => {
-  const response = await axios.get<IShow[]>('/api/shows');
+export const getShows = async (q: string) => {
+  const response = await axios.get<IShow[]>('/api/shows', { params: { q } });
 
   return response.data;
 };

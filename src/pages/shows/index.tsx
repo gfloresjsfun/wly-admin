@@ -1,16 +1,15 @@
-import { Box, CircularProgress, OutlinedInput } from '@mui/material';
-import MainCard from 'components/MainCard';
-import { Button } from '@mui/material';
 import { useCallback, useState } from 'react';
+import { Box, CircularProgress, OutlinedInput, Button } from '@mui/material';
 import { Add, Search } from '@mui/icons-material';
-import ShowsTable from 'sections/shows/table';
 import { useQuery } from '@tanstack/react-query';
+import MainCard from 'components/MainCard';
+import ShowsTable from 'sections/shows/ShowsTable';
+import ShowDialog from 'sections/shows/ShowDialog';
 import { getShows } from '_api/shows';
-import ShowDialog from 'sections/shows/Dialog';
 
 const Shows: React.FC = () => {
   const [q, setQ] = useState('');
-  const { isLoading, data = [] } = useQuery({ queryKey: ['shows'], queryFn: getShows });
+  const { isLoading, data = [] } = useQuery({ queryKey: ['shows', q], queryFn: () => getShows(q) });
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const handleOpen = useCallback(() => {
