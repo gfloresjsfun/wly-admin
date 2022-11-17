@@ -1,53 +1,28 @@
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
-import { Column, useTable } from 'react-table';
+import { FSPTable } from 'components/third-party/ReactTable';
+import { SelectColumnFilter } from 'utils/react-table';
 import MainCard from 'components/MainCard';
 import ScrollX from 'components/ScrollX';
 
-function ReactTable({ columns, data, striped }: any) {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
-    columns,
-    data
-  });
-
-  return (
-    <Table {...getTableProps()}>
-      <TableHead>
-        {headerGroups.map((headerGroup) => (
-          <TableRow {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column: any) => (
-              <TableCell {...column.getHeaderProps([{ className: column.className }])}>{column.render('Header')}</TableCell>
-            ))}
-          </TableRow>
-        ))}
-      </TableHead>
-      <TableBody {...getTableBodyProps()} {...(striped && { className: 'striped' })}>
-        {rows.map((row, i) => {
-          prepareRow(row);
-          return (
-            <TableRow {...row.getRowProps()}>
-              {row.cells.map((cell: any) => (
-                <TableCell {...cell.getCellProps([{ className: cell.column.className }])}>{cell.render('Cell')}</TableCell>
-              ))}
-            </TableRow>
-          );
-        })}
-      </TableBody>
-    </Table>
-  );
-}
-
-const columns: Column[] = [
-  { Header: 'Media', accessor: 'coverS3Url', Cell: ({ value }) => <img width="48px" src={value} alt="media cover" /> },
+const columns = [
+  {
+    Header: 'Media',
+    accessor: 'coverS3Url',
+    Cell: ({ value }: { value: string }) => <img width="48px" src={value} alt="media cover" />,
+    disableFilters: true,
+    disableSortBy: true
+  },
   { Header: 'Title', accessor: 'title' },
-  { Header: 'Type', accessor: 'mimetype' },
-  { Header: 'Duration', accessor: 'duration' }
+  { Header: 'Type', accessor: 'mimetype', Filter: SelectColumnFilter },
+  { Header: 'Duration', accessor: 'duration', disableFilters: true }
 ];
 
-const ShowsTable: React.FC<{ data: any }> = ({ data }) => {
+const initialState = { filters: [{ id: 'mimetype', value: '' }], pageIndex: 0, pageSize: 10 };
+
+const ShowsTable: React.FC<{ data: any[] }> = ({ data }) => {
   return (
     <MainCard content={false}>
       <ScrollX>
-        <ReactTable columns={columns} data={data} />
+        <FSPTable columns={columns} data={data} initialState={initialState} />
       </ScrollX>
     </MainCard>
   );
