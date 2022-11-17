@@ -16,6 +16,7 @@ const MaintenanceUnderConstruction = Loadable(lazy(() => import('pages/maintenan
 const MaintenanceComingSoon = Loadable(lazy(() => import('pages/maintenance/coming-soon')));
 
 const Shows = Loadable(lazy(() => import('pages/shows')));
+const Albums = Loadable(lazy(() => import('pages/albums')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -37,6 +38,16 @@ const MainRoutes = {
             {
               path: 'create',
               element: <Shows />
+            }
+          ]
+        },
+        {
+          path: 'albums',
+          element: <Albums />,
+          children: [
+            {
+              path: 'create',
+              element: <Albums />
             }
           ]
         }

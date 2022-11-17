@@ -2,7 +2,7 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import { Movie } from '@mui/icons-material';
+import { Movie, Collections } from '@mui/icons-material';
 
 // type
 import { NavItemType } from 'types/menu';
@@ -20,6 +20,13 @@ const other: NavItemType = {
       type: 'item',
       url: '/shows',
       icon: Movie
+    },
+    {
+      id: 'Albums',
+      title: 'Albums',
+      type: 'item',
+      url: '/albums',
+      icon: Collections
     }
   ]
 };
