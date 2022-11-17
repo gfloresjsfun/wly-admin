@@ -52,10 +52,9 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
     const init = async () => {
       try {
         const token = window.localStorage.getItem('token');
-        console.log(token);
         if (token && verifyToken(token)) {
           setSession(token);
-          const response = await axios.get('/api/account/me');
+          const response = await axios.get('/api/auth/me');
           const { user } = response.data;
           dispatch({
             type: LOGIN,
