@@ -37,3 +37,5 @@ export const updateShow = async ({ title, cover, media, id }: UpdateShow) => {
 
   return response.data;
 };
+
+export const deleteShow = async (id: string) => axios.delete(`/api/admin/shows/${id}`);
