@@ -32,7 +32,13 @@ const MainRoutes = {
       children: [
         {
           path: 'shows',
-          element: <Shows />
+          element: <Shows />,
+          children: [
+            {
+              path: 'create',
+              element: <Shows />
+            }
+          ]
         }
       ]
     },
