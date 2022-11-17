@@ -21,12 +21,12 @@ import { openSnackbar } from 'store/reducers/snackbar';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createShow } from '_api/shows';
 
-interface ShowDialogProps extends DialogProps {
+interface CreateDialogProps extends DialogProps {
   onSave?: (data: IShow) => void;
   onClose: () => void;
 }
 
-const ShowDialog: React.FC<ShowDialogProps> = ({ open, onClose, onSave, ...others }) => {
+const CreateDialog: React.FC<CreateDialogProps> = ({ open, onClose, onSave, ...others }) => {
   const {
     setValue,
     register,
@@ -123,4 +123,4 @@ const ShowDialog: React.FC<ShowDialogProps> = ({ open, onClose, onSave, ...other
   );
 };
 
-export default ShowDialog;
+export default CreateDialog;
