@@ -13,7 +13,7 @@ const Albums: React.FC = () => {
 
   return (
     <>
-      {isLoading ? <CircularProgress /> : <AlbumCardList data={data} />}
+      {isLoading ? <CircularProgress /> : <AlbumCardList items={data} />}
 
       {dialogOpen && <AlbumDialog open={!!dialogOpen} onClose={() => navigate('/albums')} />}
     </>

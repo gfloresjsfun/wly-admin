@@ -16,7 +16,7 @@ import MainCard from 'components/MainCard';
 
 // ==============================|| ALBUM CARD ||============================== //
 
-const AlbumCard = ({ title, coverS3Url, shows }: AlbumCardProps) => {
+const AlbumCard: React.FC<AlbumCardProps> = ({ title, coverS3Url, shows }) => {
   const [showsMenuAnchorEl, setShowsMenuAnchorEl] = useState<null | HTMLElement>(null);
   const openShowsMenu = Boolean(showsMenuAnchorEl);
   const handleShowsMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -38,9 +38,7 @@ const AlbumCard = ({ title, coverS3Url, shows }: AlbumCardProps) => {
   return (
     <MainCard content={false} boxShadow>
       <Box sx={{ position: 'relative' }}>
-        <Box sx={{ width: 300, m: 'auto' }}>
-          <CardMedia sx={{ height: 300 }} image={coverS3Url} />
-        </Box>
+        <CardMedia sx={{ minHeight: 300 }} image={coverS3Url} />
         <Box sx={{ width: '100%', position: 'absolute', top: 0, padding: 2.5 }}>
           <Stack direction="row" justifyContent="space-between">
             <Chip
@@ -70,11 +68,11 @@ const AlbumCard = ({ title, coverS3Url, shows }: AlbumCardProps) => {
             TransitionComponent={Fade}
             anchorOrigin={{
               vertical: 'top',
-              horizontal: 'left'
+              horizontal: 'right'
             }}
             transformOrigin={{
               vertical: 'top',
-              horizontal: 'left'
+              horizontal: 'right'
             }}
           >
             {shows.map((show) => (

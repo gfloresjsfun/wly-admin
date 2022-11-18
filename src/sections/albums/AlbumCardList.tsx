@@ -1,12 +1,22 @@
+import { useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { AddOutlined } from '@mui/icons-material';
 import { Grid, useTheme, IconButton } from '@mui/material';
 import AlbumCard from 'components/cards/AlbumCard';
 import MainCard from 'components/MainCard';
-import { Link } from 'react-router-dom';
 import { IAlbum } from 'types/albums';
 
-const AlbumCardList: React.FC<{ data: IAlbum[] }> = ({ data }) => {
+const AlbumCardList: React.FC<{ items: IAlbum[] }> = ({ items }) => {
   const theme = useTheme();
+  const itemEls = useMemo(
+    () =>
+      items.map((item) => (
+        <Grid key={item.id} item xs={6} sm={4} md={3}>
+          <AlbumCard {...item} />
+        </Grid>
+      )),
+    [items]
+  );
 
   return (
     <Grid container spacing={3}>
@@ -31,11 +41,7 @@ const AlbumCardList: React.FC<{ data: IAlbum[] }> = ({ data }) => {
           </IconButton>
         </MainCard>
       </Grid>
-      {data.map((album) => (
-        <Grid key={album.id} item xs={6} sm={4} md={3}>
-          <AlbumCard {...album} />
-        </Grid>
-      ))}
+      {itemEls}
     </Grid>
   );
 };
