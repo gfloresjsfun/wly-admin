@@ -1,14 +1,16 @@
 import { useState, useCallback, useMemo } from 'react';
 import { CircularProgress, Stack, OutlinedInput } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { useQuery } from '@tanstack/react-query';
+import { useConfirm } from 'material-ui-confirm';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Create from 'sections/shows/CreateDialog';
-import { getShows } from '_api/shows';
+import { getShows, deleteShow } from '_api/shows';
 import { useMatch, useNavigate } from 'react-router';
 import EditDialog from 'sections/shows/EditDialog';
 import ShowCardList from 'sections/shows/ShowCardList';
 import MainCard from 'components/MainCard';
 import useDeferredValue from 'hooks/utils/useDeferredValue';
+import { IShow } from 'types/shows';
 
 const Shows: React.FC = () => {
   const { isLoading, data = [] } = useQuery({ queryKey: ['shows'], queryFn: getShows });
@@ -29,13 +31,28 @@ const Shows: React.FC = () => {
     [data, deferredQ]
   );
 
+  const confirm = useConfirm();
+  const queryClient = useQueryClient();
+  const handleDelete = useCallback(
+    async (id) => {
+      try {
+        await confirm({ description: 'Are you sure to delete this item?' });
+        await deleteShow(id);
+        queryClient.setQueriesData(['shows'], (shows: IShow[] = []) => [...shows.filter(({ id: showId }) => showId !== id)]);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    [confirm, queryClient]
+  );
+
   return (
     <Stack gap={3}>
       <MainCard>
         <OutlinedInput startAdornment={<SearchIcon />} value={q} onChange={(e) => setQ(e.target.value)} />
       </MainCard>
 
-      {isLoading ? <CircularProgress /> : <ShowCardList items={items} />}
+      {isLoading ? <CircularProgress /> : <ShowCardList items={items} onDeleteItem={handleDelete} />}
       {createOpen && <Create open={createOpen} onClose={handleClose} />}
       {!!editId && editItem && <EditDialog open={!!editId} onClose={handleClose} item={editItem} />}
     </Stack>

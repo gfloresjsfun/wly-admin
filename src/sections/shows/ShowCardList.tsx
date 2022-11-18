@@ -4,18 +4,18 @@ import { Grid, IconButton, useTheme } from '@mui/material';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import ShowCard from 'components/cards/ShowCard';
 import MainCard from 'components/MainCard';
-import { IShow } from 'types/shows';
+import { ShowCardListProps } from 'types/shows';
 
-const ShowCardList: React.FC<{ items: IShow[] }> = ({ items }) => {
+const ShowCardList: React.FC<ShowCardListProps> = ({ items, onDeleteItem }) => {
   const theme = useTheme();
   const itemEls = useMemo(
     () =>
       items.map((item) => (
         <Grid key={item.id} item xs={12} sm={6} md={4}>
-          <ShowCard {...item} />
+          <ShowCard item={item} onDelete={onDeleteItem} />
         </Grid>
       )),
-    [items]
+    [items, onDeleteItem]
   );
 
   return (

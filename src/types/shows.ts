@@ -7,7 +7,15 @@ export interface IShow {
   mimetype: string;
 }
 
-export interface ShowCardProps extends IShow {}
+export interface ShowCardProps {
+  item: IShow;
+  onDelete: (id: string) => void;
+}
+
+export interface ShowCardListProps {
+  items: IShow[];
+  onDeleteItem: (id: string) => void;
+}
 
 export interface NewShow {
   title: string;
