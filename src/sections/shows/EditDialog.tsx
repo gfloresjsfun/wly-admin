@@ -162,7 +162,7 @@ const EditDialog: React.FC<EditDialogProps> = ({ open, item, onClose, ...others 
         </form>
       </DialogContent>
 
-      <DialogActions>
+      <DialogActions sx={{ px: 3, py: 2 }}>
         <Button variant="contained" color="error" onClick={onClose}>
           <Close />
           Cancel

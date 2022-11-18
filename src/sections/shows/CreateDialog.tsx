@@ -33,7 +33,6 @@ const CreateDialog: React.FC<CreateDialogProps> = ({ open, onClose, onSave, ...o
     handleSubmit,
     formState: { errors }
   } = useForm<NewShow>();
-
   const dispatch = useDispatch();
 
   const queryClient = useQueryClient();
@@ -67,10 +66,7 @@ const CreateDialog: React.FC<CreateDialogProps> = ({ open, onClose, onSave, ...o
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth {...others}>
-      <DialogTitle sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-        Add a new show
-        <Close onClick={onClose} />
-      </DialogTitle>
+      <DialogTitle>Add a new show</DialogTitle>
 
       <DialogContent>
         <form id="show-dialog-form" onSubmit={handleSubmit(handleShowSubmit)}>
@@ -103,8 +99,8 @@ const CreateDialog: React.FC<CreateDialogProps> = ({ open, onClose, onSave, ...o
         </form>
       </DialogContent>
 
-      <DialogActions>
-        <Button variant="contained" color="error">
+      <DialogActions sx={{ px: 3, py: 2 }}>
+        <Button variant="contained" color="error" onClick={onClose}>
           <Close />
           Cancel
         </Button>
