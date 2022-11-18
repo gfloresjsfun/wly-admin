@@ -3,7 +3,7 @@ import { Box, CircularProgress, OutlinedInput, Button } from '@mui/material';
 import { Add, Search } from '@mui/icons-material';
 import { useQuery } from '@tanstack/react-query';
 import MainCard from 'components/MainCard';
-import ShowsTable from 'sections/shows/ShowsTable';
+import ShowsTable from 'sections/shows/ShowTable';
 import Create from 'sections/shows/CreateDialog';
 import { getShows } from '_api/shows';
 import { useMatch, useNavigate } from 'react-router';
