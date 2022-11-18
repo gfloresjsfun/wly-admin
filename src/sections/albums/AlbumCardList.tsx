@@ -24,7 +24,7 @@ const AlbumCardList: React.FC<{ items: IAlbum[] }> = ({ items }) => {
         <MainCard
           sx={{
             border: `1px dashed ${theme.palette.secondary.main}`,
-            height: '100%',
+            height: 300,
             '&:hover': { opacity: 0.72, cursor: 'pointer' },
             display: 'flex',
             alignItems: 'center',

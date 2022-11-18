@@ -38,7 +38,7 @@ const AlbumCard: React.FC<AlbumCardProps> = ({ title, coverS3Url, shows }) => {
   return (
     <MainCard content={false} boxShadow>
       <Box sx={{ position: 'relative' }}>
-        <CardMedia sx={{ minHeight: 300 }} image={coverS3Url} />
+        <CardMedia sx={{ height: 300 }} image={coverS3Url} />
         <Box sx={{ width: '100%', position: 'absolute', top: 0, padding: 2.5 }}>
           <Stack direction="row" justifyContent="space-between">
             <Chip
