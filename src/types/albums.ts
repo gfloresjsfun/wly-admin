@@ -7,4 +7,10 @@ export interface IAlbum {
   shows: [IShow];
 }
 
+export interface NewAlbum {
+  cover: File;
+  title: string;
+  shows: string[];
+}
+
 export interface AlbumCardProps extends IAlbum {}

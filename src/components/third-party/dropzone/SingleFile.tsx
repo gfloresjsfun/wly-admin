@@ -60,7 +60,9 @@ const SingleFileUpload: React.FC<UploadProps> = ({ error, onFile, sx, accept }) 
               position: 'absolute',
               width: 'calc(100% - 16px)',
               height: 'calc(100% - 16px)',
-              background: theme.palette.background.paper
+              background: theme.palette.background.paper,
+              display: 'flex',
+              justifyContent: 'center'
             }}
           >
             <Preview file={file} />

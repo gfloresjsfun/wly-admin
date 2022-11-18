@@ -7,8 +7,8 @@ const Preview: React.FC<{ file: File }> = ({ file }) => {
 
   if (!file) return <></>;
 
-  if (file.type.includes('video')) return <video width="100%" src={preview}></video>;
-  if (file.type.includes('image')) return <img width="100%" alt="Preview" src={preview}></img>;
+  if (file.type.includes('video')) return <video height="100%" src={preview}></video>;
+  if (file.type.includes('image')) return <img height="100%" alt="Preview" src={preview}></img>;
 
   return (
     <Box width="100%" height="100%" display="flex" justifyContent="center" alignItems="center" flexDirection="column">
