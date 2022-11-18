@@ -24,7 +24,7 @@ const ShowCardList: React.FC<{ items: IShow[] }> = ({ items }) => {
         <MainCard
           sx={{
             border: `1px dashed ${theme.palette.secondary.main}`,
-            height: '100%',
+            height: 150,
             '&:hover': { opacity: 0.72, cursor: 'pointer' },
             display: 'flex',
             alignItems: 'center',
