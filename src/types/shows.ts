@@ -7,6 +7,8 @@ export interface IShow {
   mimetype: string;
 }
 
+export interface ShowCardProps extends IShow {}
+
 export interface NewShow {
   title: string;
   media: File;
