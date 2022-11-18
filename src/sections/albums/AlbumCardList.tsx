@@ -12,7 +12,7 @@ const AlbumCardList: React.FC<{ items: IAlbum[] }> = ({ items }) => {
     () =>
       items.map((item) => (
         <Grid key={item.id} item xs={6} sm={4} md={3}>
-          <AlbumCard {...item} />
+          <AlbumCard item={item} />
         </Grid>
       )),
     [items]

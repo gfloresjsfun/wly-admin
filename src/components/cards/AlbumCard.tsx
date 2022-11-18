@@ -16,7 +16,7 @@ import MainCard from 'components/MainCard';
 
 // ==============================|| ALBUM CARD ||============================== //
 
-const AlbumCard: React.FC<AlbumCardProps> = ({ title, coverS3Url, shows }) => {
+const AlbumCard: React.FC<AlbumCardProps> = ({ item: { title, coverS3Url, shows } }) => {
   const [showsMenuAnchorEl, setShowsMenuAnchorEl] = useState<null | HTMLElement>(null);
   const openShowsMenu = Boolean(showsMenuAnchorEl);
   const handleShowsMenuOpen = (event: React.MouseEvent<HTMLElement>) => {

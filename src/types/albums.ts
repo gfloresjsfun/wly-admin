@@ -4,7 +4,7 @@ export interface IAlbum {
   id: string;
   title: string;
   coverS3Url: string;
-  shows: [IShow];
+  shows: IShow[];
 }
 
 export interface NewAlbum {
@@ -13,4 +13,6 @@ export interface NewAlbum {
   shows: string[];
 }
 
-export interface AlbumCardProps extends IAlbum {}
+export interface AlbumCardProps {
+  item: IAlbum;
+}
