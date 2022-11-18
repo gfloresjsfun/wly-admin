@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { AddOutlined } from '@mui/icons-material';
 import { Grid, useTheme, IconButton } from '@mui/material';
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import AlbumCard from 'components/cards/AlbumCard';
 import MainCard from 'components/MainCard';
 import { IAlbum } from 'types/albums';
@@ -37,7 +37,7 @@ const AlbumCardList: React.FC<{ items: IAlbum[] }> = ({ items }) => {
             to="create"
             sx={{ borderRadius: '50%', border: `1px dashed ${theme.palette.secondary.main}`, width: 'auto', height: 'auto' }}
           >
-            <AddOutlined sx={{ fontSize: '6rem' }} />
+            <AddOutlinedIcon sx={{ fontSize: '6rem' }} />
           </IconButton>
         </MainCard>
       </Grid>
