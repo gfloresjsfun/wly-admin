@@ -2,8 +2,9 @@ import { useState } from 'react';
 import formatDuration from 'format-duration';
 
 // material-ui
-import { Box, CardMedia, Chip, Typography, CardContent, IconButton, Stack, Menu, MenuItem, Fade } from '@mui/material';
+import { Box, CardMedia, Chip, Typography, IconButton, Stack, Menu, MenuItem, Fade, ListItemIcon, ListItemText } from '@mui/material';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -16,13 +17,22 @@ import MainCard from 'components/MainCard';
 // ==============================|| ALBUM CARD ||============================== //
 
 const AlbumCard = ({ title, coverS3Url, shows }: AlbumCardProps) => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const openMenu = Boolean(anchorEl);
-  const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+  const [showsMenuAnchorEl, setShowsMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const openShowsMenu = Boolean(showsMenuAnchorEl);
+  const handleShowsMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setShowsMenuAnchorEl(event.currentTarget);
   };
-  const handleMenuClose = () => {
-    setAnchorEl(null);
+  const handleShowsMenuClose = () => {
+    setShowsMenuAnchorEl(null);
+  };
+
+  const [actionsMenuAnchorEl, setActionsMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const openActionsMenu = Boolean(actionsMenuAnchorEl);
+  const handleActionsMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setActionsMenuAnchorEl(event.currentTarget);
+  };
+  const handleActionsMenuClose = () => {
+    setActionsMenuAnchorEl(null);
   };
 
   return (
@@ -31,25 +41,35 @@ const AlbumCard = ({ title, coverS3Url, shows }: AlbumCardProps) => {
         <Box sx={{ width: 300, m: 'auto' }}>
           <CardMedia sx={{ height: 300 }} image={coverS3Url} />
         </Box>
-        <Box sx={{ width: '100%', position: 'absolute', top: 0, pt: 2.5, pl: 3, pr: 1 }}>
-          <Chip
-            icon={<PlayCircleOutlineIcon />}
-            label={`${shows.length} Shows`}
-            color="secondary"
-            sx={{ background: 'rgba(0, 0, 0, 0.3)' }}
-            onClick={handleMenuClick}
-          />
+        <Box sx={{ width: '100%', position: 'absolute', top: 0, padding: 2.5 }}>
+          <Stack direction="row" justifyContent="space-between">
+            <Chip
+              icon={<PlayCircleOutlineIcon />}
+              label={`${shows.length} Shows`}
+              color="secondary"
+              sx={{ background: 'rgba(0, 0, 0, 0.3)' }}
+              onClick={handleShowsMenuOpen}
+            />
+            <IconButton
+              edge="end"
+              aria-label="comments"
+              sx={{ background: 'rgba(0, 0, 0, 0.3)', color: 'white' }}
+              onClick={handleActionsMenuOpen}
+            >
+              <MoreVertIcon />
+            </IconButton>
+          </Stack>
+
           <Menu
-            id="fade-menu"
             MenuListProps={{
               'aria-labelledby': 'fade-button'
             }}
-            anchorEl={anchorEl}
-            open={openMenu}
-            onClose={handleMenuClose}
+            anchorEl={showsMenuAnchorEl}
+            open={openShowsMenu}
+            onClose={handleShowsMenuClose}
             TransitionComponent={Fade}
             anchorOrigin={{
-              vertical: 'bottom',
+              vertical: 'top',
               horizontal: 'left'
             }}
             transformOrigin={{
@@ -61,23 +81,44 @@ const AlbumCard = ({ title, coverS3Url, shows }: AlbumCardProps) => {
               <MenuItem key={show.id}>{`${show.title} (${formatDuration(show.duration * 1000)})`}</MenuItem>
             ))}
           </Menu>
+
+          <Menu
+            MenuListProps={{
+              'aria-labelledby': 'fade-button'
+            }}
+            anchorEl={actionsMenuAnchorEl}
+            open={openActionsMenu}
+            onClose={handleActionsMenuClose}
+            TransitionComponent={Fade}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right'
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right'
+            }}
+          >
+            <MenuItem>
+              <ListItemIcon>
+                <EditIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>Edit</ListItemText>
+            </MenuItem>
+            <MenuItem>
+              <ListItemIcon>
+                <DeleteIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>Delete</ListItemText>
+            </MenuItem>
+          </Menu>
         </Box>
-        <Box sx={{ width: '100%', position: 'absolute', bottom: 0, pb: 2.5, pl: 3, pr: 1 }}>
+        <Box sx={{ width: '100%', position: 'absolute', bottom: 0, padding: 2.5 }}>
           <Typography color="white" variant="h3">
             {title}
           </Typography>
         </Box>
       </Box>
-      <CardContent sx={{ p: 2 }}>
-        <Stack direction="row">
-          <IconButton aria-label="edit" color="primary">
-            <EditIcon />
-          </IconButton>
-          <IconButton aria-label="delete" color="error">
-            <DeleteIcon />
-          </IconButton>
-        </Stack>
-      </CardContent>
     </MainCard>
   );
 };
