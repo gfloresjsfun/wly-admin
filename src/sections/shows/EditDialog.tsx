@@ -152,7 +152,7 @@ const EditDialog: React.FC<EditDialogProps> = ({ open, item, onClose, ...others 
                       justifyContent: 'center'
                     }}
                   >
-                    {!cover && <img src={item.coverS3Url} width="100%" />}
+                    {!cover && <img src={item.coverS3Url} width="100%" alt="media cover" />}
                     {cover && <Preview file={cover} />}
                   </Box>
                 </PreviewWrapper>

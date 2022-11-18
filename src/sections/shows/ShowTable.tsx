@@ -27,7 +27,7 @@ const ShowsTable: React.FC<{ data: any[] }> = ({ data }) => {
         console.log(e);
       }
     },
-    [confirm]
+    [confirm, queryClient]
   );
 
   const columns = useMemo(
