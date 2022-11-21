@@ -69,11 +69,11 @@ const AlbumCard: React.FC<AlbumCardProps> = ({ item: { title, coverS3Url, shows,
             TransitionComponent={Fade}
             anchorOrigin={{
               vertical: 'top',
-              horizontal: 'right'
+              horizontal: 'left'
             }}
             transformOrigin={{
               vertical: 'top',
-              horizontal: 'right'
+              horizontal: 'left'
             }}
           >
             {shows.map((show) => (
