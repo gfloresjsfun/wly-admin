@@ -18,7 +18,7 @@ const ShowCard: React.FC<ShowCardProps> = ({ item: { id, title, duration, coverS
           </Typography>
           <Chip icon={<VideoFileIcon />} label={formatDuration(duration * 1000)} variant="outlined" size="small" />
         </CardContent>
-        <CardActions sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
+        <CardActions sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', px: 2.5 }}>
           <IconButton aria-label="add to favorites" color="primary" size="small" component={Link} to={`${id}/edit`}>
             <EditIcon />
           </IconButton>
