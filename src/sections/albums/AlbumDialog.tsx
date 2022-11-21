@@ -127,7 +127,7 @@ const AlbumDialog: React.FC<AlbumDialogPrpos> = ({ open, onClose, edit = false, 
                 filterSelectedOptions
                 isOptionEqualToValue={(opt, val) => opt.id === val.id}
                 loading={loadingShows}
-                renderInput={(params) => <TextField {...params} id="shows" placeholder="Favorites" />}
+                renderInput={(params) => <TextField {...params} id="shows" placeholder="Shows" />}
                 renderOption={(props, option, { selected }) => (
                   <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
                     <img loading="lazy" width="20" src={option.coverS3Url} alt="cover" />
@@ -159,7 +159,7 @@ const AlbumDialog: React.FC<AlbumDialogPrpos> = ({ open, onClose, edit = false, 
           Cancel
         </Button>
         <Button type="submit" form="album-form" variant="contained" color="primary" disabled={isUpdating && isCreating}>
-          {isUpdating && isCreating ? (
+          {isUpdating || isCreating ? (
             <CircularProgress size="1.5rem" color="primary" />
           ) : edit ? (
             <>
