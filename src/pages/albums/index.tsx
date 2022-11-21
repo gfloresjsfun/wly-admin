@@ -12,7 +12,7 @@ import { useConfirm } from 'material-ui-confirm';
 import { IAlbum } from 'types/albums';
 
 const Albums: React.FC = () => {
-  const { isLoading, data = [] } = useQuery({ queryKey: ['albums'], queryFn: () => getAlbums() });
+  const { isLoading, data = [] } = useQuery({ queryKey: ['albums'], queryFn: getAlbums });
   const createOpen = useMatch('/albums/create');
   const navigate = useNavigate();
 
