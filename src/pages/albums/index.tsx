@@ -11,8 +11,11 @@ import useDeferredValue from 'hooks/utils/useDeferredValue';
 
 const Albums: React.FC = () => {
   const { isLoading, data = [] } = useQuery({ queryKey: ['albums'], queryFn: () => getAlbums() });
-  const dialogOpen = useMatch('/albums/create');
+  const createOpen = useMatch('/albums/create');
   const navigate = useNavigate();
+
+  const editId = useMatch('/albums/:id/edit')?.params.id;
+  const editItem = useMemo(() => data.find(({ id }) => id === editId), [editId, data]);
 
   const [q, setQ] = useState('');
   const deferredQ = useDeferredValue(q);
@@ -28,7 +31,8 @@ const Albums: React.FC = () => {
       </MainCard>
 
       {isLoading ? <CircularProgress /> : <AlbumCardList items={items} />}
-      {dialogOpen && <AlbumDialog open={!!dialogOpen} onClose={() => navigate('/albums')} />}
+      {createOpen && <AlbumDialog open onClose={() => navigate('/albums')} />}
+      {editId && editItem && <AlbumDialog open edit item={editItem} onClose={() => navigate('/albums')} />}
     </Stack>
   );
 };

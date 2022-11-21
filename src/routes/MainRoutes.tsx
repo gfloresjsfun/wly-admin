@@ -52,6 +52,10 @@ const MainRoutes = {
             {
               path: 'create',
               element: <Albums />
+            },
+            {
+              path: ':id/edit',
+              element: <Albums />
             }
           ]
         }

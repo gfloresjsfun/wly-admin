@@ -13,10 +13,11 @@ import { AlbumCardProps } from 'types/albums';
 
 // project import
 import MainCard from 'components/MainCard';
+import { Link } from 'react-router-dom';
 
 // ==============================|| ALBUM CARD ||============================== //
 
-const AlbumCard: React.FC<AlbumCardProps> = ({ item: { title, coverS3Url, shows } }) => {
+const AlbumCard: React.FC<AlbumCardProps> = ({ item: { title, coverS3Url, shows, id } }) => {
   const [showsMenuAnchorEl, setShowsMenuAnchorEl] = useState<null | HTMLElement>(null);
   const openShowsMenu = Boolean(showsMenuAnchorEl);
   const handleShowsMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -97,7 +98,7 @@ const AlbumCard: React.FC<AlbumCardProps> = ({ item: { title, coverS3Url, shows 
               horizontal: 'right'
             }}
           >
-            <MenuItem>
+            <MenuItem component={Link} to={`${id}/edit`}>
               <ListItemIcon>
                 <EditIcon fontSize="small" />
               </ListItemIcon>

@@ -25,3 +25,18 @@ export const createAlbum = async ({ title, cover, shows }: NewAlbum) => {
 
   return response.data;
 };
+
+export const updateAlbum = async ({ title, cover, shows, id }: NewAlbum & { id: string }) => {
+  const formData = new FormData();
+
+  formData.append('title', title);
+  formData.append('cover', cover);
+
+  for (let show of shows) {
+    formData.append('shows', show);
+  }
+
+  const response = await axios.patch(`/api/admin/albums/${id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+
+  return response.data;
+};
