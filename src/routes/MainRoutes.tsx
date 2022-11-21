@@ -8,6 +8,7 @@ import AuthGuard from 'utils/route-guard/AuthGuard';
 
 // render - sample page
 import { Navigate } from 'react-router';
+import Suggestions from 'pages/suggestions';
 
 // pages routing
 const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/404')));
@@ -58,6 +59,10 @@ const MainRoutes = {
               element: <Albums />
             }
           ]
+        },
+        {
+          path: 'suggestions',
+          element: <Suggestions />
         }
       ]
     },

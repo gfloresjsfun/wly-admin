@@ -15,7 +15,7 @@ const AlbumCardList: React.FC<{ items: IAlbum[]; onDeleteItem: (id: string) => v
           <AlbumCard item={item} onDelete={onDeleteItem} />
         </Grid>
       )),
-    [items]
+    [items, onDeleteItem]
   );
 
   return (
