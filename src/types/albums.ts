@@ -15,4 +15,5 @@ export interface NewAlbum {
 
 export interface AlbumCardProps {
   item: IAlbum;
+  onDelete: (id: string) => void;
 }

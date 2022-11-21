@@ -6,13 +6,13 @@ import AlbumCard from 'components/cards/AlbumCard';
 import MainCard from 'components/MainCard';
 import { IAlbum } from 'types/albums';
 
-const AlbumCardList: React.FC<{ items: IAlbum[] }> = ({ items }) => {
+const AlbumCardList: React.FC<{ items: IAlbum[]; onDeleteItem: (id: string) => void }> = ({ items, onDeleteItem }) => {
   const theme = useTheme();
   const itemEls = useMemo(
     () =>
       items.map((item) => (
         <Grid key={item.id} item xs={6} sm={4} md={3}>
-          <AlbumCard item={item} />
+          <AlbumCard item={item} onDelete={onDeleteItem} />
         </Grid>
       )),
     [items]

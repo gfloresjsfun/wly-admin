@@ -40,3 +40,7 @@ export const updateAlbum = async ({ title, cover, shows, id }: NewAlbum & { id: 
 
   return response.data;
 };
+
+export const deleteAlbum = async (id: string) => {
+  return await axios.delete(`/api/admin/albums/${id}`);
+};

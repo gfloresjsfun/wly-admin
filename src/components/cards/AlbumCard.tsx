@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom';
 
 // ==============================|| ALBUM CARD ||============================== //
 
-const AlbumCard: React.FC<AlbumCardProps> = ({ item: { title, coverS3Url, shows, id } }) => {
+const AlbumCard: React.FC<AlbumCardProps> = ({ item: { title, coverS3Url, shows, id }, onDelete }) => {
   const [showsMenuAnchorEl, setShowsMenuAnchorEl] = useState<null | HTMLElement>(null);
   const openShowsMenu = Boolean(showsMenuAnchorEl);
   const handleShowsMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -104,7 +104,7 @@ const AlbumCard: React.FC<AlbumCardProps> = ({ item: { title, coverS3Url, shows,
               </ListItemIcon>
               <ListItemText>Edit</ListItemText>
             </MenuItem>
-            <MenuItem>
+            <MenuItem onClick={() => onDelete(id)}>
               <ListItemIcon>
                 <DeleteIcon fontSize="small" />
               </ListItemIcon>
