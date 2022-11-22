@@ -20,7 +20,7 @@ const config: DefaultConfigProps = {
   i18n: 'en',
   miniDrawer: false,
   container: true,
-  mode: 'dark',
+  mode: 'light',
   presetColor: 'default',
   themeDirection: 'ltr'
 };
