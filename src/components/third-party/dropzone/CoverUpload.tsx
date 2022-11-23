@@ -27,7 +27,7 @@ const CoverUpload: React.FC<UploadProps> = ({ onFile, defaultUrl }) => {
       setUrl(URL.createObjectURL(files[0]));
     }
   });
-  const imageUrl = defaultUrl || url;
+  const imageUrl = url || defaultUrl;
 
   return (
     <Stack>

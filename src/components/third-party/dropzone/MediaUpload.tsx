@@ -33,7 +33,7 @@ const MediaUpload: React.FC<UploadProps> = ({ onFile, defaultUrl }) => {
       setUrl(URL.createObjectURL(files[0]));
     }
   });
-  const mediaUrl = defaultUrl || url;
+  const mediaUrl = url || defaultUrl;
 
   return (
     <Stack>
