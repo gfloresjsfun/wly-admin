@@ -31,7 +31,16 @@ const ShowEditDialog: React.FC<ShowEditDialogProps> = ({ open, item, onClose }) 
     mutate({ id: item.id, title, media, cover } as ShowUpdateMutationFnVariables);
   };
 
-  return <ShowFormDialog open={open} initialValues={item} isMutating={isMutating} onSubmit={handleUpdate} onClose={onClose} />;
+  return (
+    <ShowFormDialog
+      open={open}
+      initialValues={item}
+      isMutating={isMutating}
+      title={`Edit show "${item.title}"`}
+      onSubmit={handleUpdate}
+      onClose={onClose}
+    />
+  );
 };
 
 export default ShowEditDialog;

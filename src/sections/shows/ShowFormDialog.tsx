@@ -29,11 +29,12 @@ interface ShowFormDialogProps {
   open: boolean;
   initialValues: InitialValues;
   isMutating: boolean;
+  title: string;
   onSubmit: SubmitHandler<ShowMutationFnVariables>;
   onClose: () => void;
 }
 
-const ShowFormDialog: React.FC<ShowFormDialogProps> = ({ open, initialValues, isMutating, onSubmit, onClose }) => {
+const ShowFormDialog: React.FC<ShowFormDialogProps> = ({ open, initialValues, isMutating, title, onSubmit, onClose }) => {
   const {
     setValue,
     register,
@@ -49,7 +50,7 @@ const ShowFormDialog: React.FC<ShowFormDialogProps> = ({ open, initialValues, is
 
   return (
     <Dialog open={open} maxWidth="md" fullWidth onClose={onClose}>
-      <DialogTitle>Edit a show</DialogTitle>
+      <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <form id="show-edit-dialog-form" onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={3} mt={1}>
