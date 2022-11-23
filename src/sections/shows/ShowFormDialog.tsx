@@ -26,15 +26,26 @@ interface InitialValues {
 }
 
 interface ShowFormDialogProps {
-  open: boolean;
-  initialValues: InitialValues;
-  isMutating: boolean;
   title: string;
+  open: boolean;
+  initialValues?: InitialValues;
+  isMutating: boolean;
   onSubmit: SubmitHandler<ShowMutationFnVariables>;
   onClose: () => void;
 }
 
-const ShowFormDialog: React.FC<ShowFormDialogProps> = ({ open, initialValues, isMutating, title, onSubmit, onClose }) => {
+const defaultInitialValues = {
+  title: ''
+} as InitialValues;
+
+const ShowFormDialog: React.FC<ShowFormDialogProps> = ({
+  title,
+  open,
+  initialValues = defaultInitialValues,
+  isMutating,
+  onSubmit,
+  onClose
+}) => {
   const {
     setValue,
     register,

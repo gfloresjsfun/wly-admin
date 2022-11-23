@@ -1,5 +1,5 @@
-import { MutationFunction } from '@tanstack/react-query';
 import axios from 'axios';
+import { MutationFunction } from '@tanstack/react-query';
 import { IShow, ShowCreateMutationFnVariables, ShowUpdateMutationFnVariables } from 'types/shows';
 
 export const getShows = async () => {

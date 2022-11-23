@@ -3,16 +3,16 @@ import { CircularProgress, Stack, OutlinedInput } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useConfirm } from 'material-ui-confirm';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useDispatch } from 'react-redux';
 import ShowCreateDialog from 'sections/shows/ShowCreateDialog';
 import ShowEditDialog from 'sections/shows/ShowEditDialog';
-import { getShows, deleteShow } from '_api/shows';
 import { useMatch, useNavigate, useParams } from 'react-router';
 import ShowCardList from 'sections/shows/ShowCardList';
 import MainCard from 'components/MainCard';
 import useDeferredValue from 'hooks/utils/useDeferredValue';
-import { IShow } from 'types/shows';
-import { useDispatch } from 'react-redux';
 import { openSnackbar } from 'store/reducers/snackbar';
+import { getShows, deleteShow } from '_api/shows';
+import { IShow } from 'types/shows';
 
 const Shows: React.FC = () => {
   const { isLoading, data = [] } = useQuery({ queryKey: ['shows'], queryFn: getShows });

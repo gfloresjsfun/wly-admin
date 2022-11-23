@@ -33,10 +33,10 @@ const ShowEditDialog: React.FC<ShowEditDialogProps> = ({ open, item, onClose }) 
 
   return (
     <ShowFormDialog
+      title={`Edit show "${item.title}"`}
       open={open}
       initialValues={item}
       isMutating={isMutating}
-      title={`Edit show "${item.title}"`}
       onSubmit={handleUpdate}
       onClose={onClose}
     />

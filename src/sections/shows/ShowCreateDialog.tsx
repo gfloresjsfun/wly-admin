@@ -30,16 +30,7 @@ const ShowCreateDialog: React.FC<ShowCreateDialogProps> = ({ open, onClose }) =>
     mutate({ title, cover, media } as ShowCreateMutationFnVariables);
   };
 
-  return (
-    <ShowFormDialog
-      open={open}
-      initialValues={{ title: '' }}
-      isMutating={isMutating}
-      title="Create show"
-      onSubmit={handleCreate}
-      onClose={onClose}
-    />
-  );
+  return <ShowFormDialog title="Create show" open={open} isMutating={isMutating} onSubmit={handleCreate} onClose={onClose} />;
 };
 
 export default ShowCreateDialog;
