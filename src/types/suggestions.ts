@@ -23,15 +23,3 @@ export interface ISuggestion {
   playables: IPlayable[];
   tips?: ITip[];
 }
-
-export interface NewSuggestion {
-  title: string;
-  description: string;
-  playables: IPlayable[];
-  tips?: ITip[];
-}
-
-export interface SuggestionCardProps {
-  item: ISuggestion;
-  onDelete: (id: string) => void;
-}

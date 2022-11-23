@@ -1,8 +1,4 @@
-// types
-import { SuggestionCardProps } from 'types/suggestions';
-
-// project import
-import MainCard from 'components/MainCard';
+import { useMemo, useState } from 'react';
 import {
   Card,
   CardContent,
@@ -13,12 +9,25 @@ import {
   Box,
   Accordion,
   AccordionSummary,
-  AccordionDetails
+  AccordionDetails,
+  IconButton,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  Fade
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import { useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import MainCard from 'components/MainCard';
+import { ISuggestion } from 'types/suggestions';
+import { IAlbum } from 'types/albums';
+import { IShow } from 'types/shows';
 
 const responsive = {
   desktop: {
@@ -35,21 +44,28 @@ const responsive = {
   }
 };
 
-const SuggestionCard: React.FC<SuggestionCardProps> = ({ item: { title, description, playables, tips }, onDelete }) => {
-  const playableElms = useMemo(
-    () =>
-      playables.map(({ playable }) => (
-        <Card sx={{ position: 'relative', m: 1 }}>
-          <CardMedia image={playable.coverS3Url} component="img" />
-          <Box sx={{ width: '100%', position: 'absolute', bottom: 0, padding: 2.5 }}>
-            <Typography color="white" variant="h6">
-              {playable.title}
-            </Typography>
-          </Box>
-        </Card>
-      )),
-    [playables]
-  );
+interface PlayableCardProps {
+  item: IShow | IAlbum;
+}
+
+const PlayableCard: React.FC<PlayableCardProps> = ({ item: { title, coverS3Url } }) => (
+  <Card sx={{ position: 'relative', m: 1 }}>
+    <CardMedia image={coverS3Url} component="img" />
+    <Box sx={{ width: '100%', position: 'absolute', bottom: 0, padding: 2.5 }}>
+      <Typography color="white" variant="h6">
+        {title}
+      </Typography>
+    </Box>
+  </Card>
+);
+
+interface SuggestionCardProps {
+  item: ISuggestion;
+  onDelete: (id: string) => void;
+}
+
+const SuggestionCard: React.FC<SuggestionCardProps> = ({ item: { id, title, description, playables, tips }, onDelete }) => {
+  const playableElms = useMemo(() => playables.map(({ playable }) => <PlayableCard key={playable.id} item={playable} />), [playables]);
 
   const tipElms = useMemo(
     () =>
@@ -66,9 +82,55 @@ const SuggestionCard: React.FC<SuggestionCardProps> = ({ item: { title, descript
     [tips]
   );
 
+  const [actionsMenuAnchorEl, setActionsMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const openActionsMenu = Boolean(actionsMenuAnchorEl);
+  const handleActionsMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setActionsMenuAnchorEl(event.currentTarget);
+  };
+  const handleActionsMenuClose = () => {
+    setActionsMenuAnchorEl(null);
+  };
+
   return (
     <MainCard content={false} boxShadow>
-      <CardHeader title={title} />
+      <CardHeader
+        title={title}
+        action={
+          <IconButton aria-label="settings" onClick={handleActionsMenuOpen}>
+            <MoreVertIcon />
+          </IconButton>
+        }
+      />
+      <Menu
+        MenuListProps={{
+          'aria-labelledby': 'fade-button'
+        }}
+        anchorEl={actionsMenuAnchorEl}
+        open={openActionsMenu}
+        onClose={handleActionsMenuClose}
+        TransitionComponent={Fade}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right'
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right'
+        }}
+      >
+        <MenuItem component={Link} to={`${id}/edit`}>
+          <ListItemIcon>
+            <EditIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Edit</ListItemText>
+        </MenuItem>
+        <MenuItem onClick={() => onDelete(id)}>
+          <ListItemIcon>
+            <DeleteIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Delete</ListItemText>
+        </MenuItem>
+      </Menu>
       <CardContent sx={{ paddingTop: 0 }}>
         <Stack gap={2}>
           <Typography variant="body1" color="text.secondary">
