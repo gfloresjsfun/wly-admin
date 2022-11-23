@@ -7,6 +7,21 @@ export interface IShow {
   mimetype: string;
 }
 
+export interface ShowCreateMutationFnVariables {
+  title: string;
+  media: File;
+  cover: File;
+}
+
+export interface ShowUpdateMutationFnVariables {
+  id: string;
+  title: string;
+  media?: File;
+  cover?: File;
+}
+
+export type ShowMutationFnVariables = ShowCreateMutationFnVariables | ShowUpdateMutationFnVariables
+
 export interface ShowCardProps {
   item: IShow;
   onDelete: (id: string) => void;
@@ -15,10 +30,4 @@ export interface ShowCardProps {
 export interface ShowCardListProps {
   items: IShow[];
   onDeleteItem: (id: string) => void;
-}
-
-export interface NewShow {
-  title: string;
-  media: File;
-  cover: File;
 }

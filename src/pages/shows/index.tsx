@@ -2,48 +2,59 @@ import { useState, useCallback, useMemo } from 'react';
 import { CircularProgress, Stack, OutlinedInput } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useConfirm } from 'material-ui-confirm';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import Create from 'sections/shows/CreateDialog';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import ShowCreateDialog from 'sections/shows/ShowCreateDialog';
+import ShowEditDialog from 'sections/shows/ShowEditDialog';
 import { getShows, deleteShow } from '_api/shows';
-import { useMatch, useNavigate } from 'react-router';
-import EditDialog from 'sections/shows/EditDialog';
+import { useMatch, useNavigate, useParams } from 'react-router';
 import ShowCardList from 'sections/shows/ShowCardList';
 import MainCard from 'components/MainCard';
 import useDeferredValue from 'hooks/utils/useDeferredValue';
 import { IShow } from 'types/shows';
+import { useDispatch } from 'react-redux';
+import { openSnackbar } from 'store/reducers/snackbar';
 
 const Shows: React.FC = () => {
   const { isLoading, data = [] } = useQuery({ queryKey: ['shows'], queryFn: getShows });
 
+  // create and edit
+  const isCreateOpen = !!useMatch('/shows/create');
+  const isEditOpen = !!useMatch('/shows/:id/edit');
+  const { id: itemIdInEdit } = useParams();
+  const itemInEdit = useMemo(() => data.find(({ id }) => id === itemIdInEdit), [itemIdInEdit, data]);
+
+  // onClose
   const navigate = useNavigate();
-  const createOpen = !!useMatch('/shows/create');
-  const editId = useMatch('/shows/:id/edit')?.params.id;
   const handleClose = useCallback(() => {
     navigate('/shows');
   }, [navigate]);
 
-  const editItem = useMemo(() => data.find(({ id }) => id === editId), [editId, data]);
+  // delete
+  const queryClient = useQueryClient();
+  const dispatch = useDispatch();
+  const confirm = useConfirm();
+  const { mutate: deleteMutationFn } = useMutation({
+    mutationFn: deleteShow,
+    onSuccess(item) {
+      queryClient.setQueryData(['shows'], (shows: IShow[] = []) => shows.filter(({ id }) => id !== item.id));
+      dispatch(openSnackbar({ open: true, variant: 'alert', alert: { color: 'success' }, message: 'Success' }));
+    },
+    onError(error) {
+      dispatch(openSnackbar({ open: true, variant: 'alert', alert: { color: 'error' }, message: 'Error' }));
+    }
+  });
 
+  const handleDelete = useCallback(
+    (id) => confirm({ description: 'Are you sure to delete this item?' }).then(() => deleteMutationFn(id)),
+    [confirm, deleteMutationFn]
+  );
+
+  // filter
   const [q, setQ] = useState('');
   const deferredQ = useDeferredValue(q);
   const items = useMemo(
     () => data.filter((item) => item.title.toLocaleLowerCase().includes(deferredQ.toLocaleLowerCase())),
     [data, deferredQ]
-  );
-
-  const confirm = useConfirm();
-  const queryClient = useQueryClient();
-  const handleDelete = useCallback(
-    async (id) => {
-      try {
-        await confirm({ description: 'Are you sure to delete this item?' });
-        await deleteShow(id);
-        queryClient.setQueriesData(['shows'], (shows: IShow[] = []) => [...shows.filter(({ id: showId }) => showId !== id)]);
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    [confirm, queryClient]
   );
 
   return (
@@ -53,8 +64,9 @@ const Shows: React.FC = () => {
       </MainCard>
 
       {isLoading ? <CircularProgress /> : <ShowCardList items={items} onDeleteItem={handleDelete} />}
-      {createOpen && <Create open={createOpen} onClose={handleClose} />}
-      {!!editId && editItem && <EditDialog open={!!editId} onClose={handleClose} item={editItem} />}
+
+      {isCreateOpen && <ShowCreateDialog open={isCreateOpen} onClose={handleClose} />}
+      {isEditOpen && itemInEdit && <ShowEditDialog open={isEditOpen} onClose={handleClose} item={itemInEdit} />}
     </Stack>
   );
 };

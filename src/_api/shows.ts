@@ -1,5 +1,6 @@
+import { MutationFunction } from '@tanstack/react-query';
 import axios from 'axios';
-import { IShow, NewShow } from 'types/shows';
+import { IShow, ShowCreateMutationFnVariables, ShowUpdateMutationFnVariables } from 'types/shows';
 
 export const getShows = async () => {
   const response = await axios.get<IShow[]>('/api/shows');
@@ -7,7 +8,7 @@ export const getShows = async () => {
   return response.data;
 };
 
-export const createShow = async ({ title, cover, media }: NewShow) => {
+export const createShow: MutationFunction<IShow, ShowCreateMutationFnVariables> = async ({ title, cover, media }) => {
   const formData = new FormData();
 
   formData.append('title', title);
@@ -19,14 +20,7 @@ export const createShow = async ({ title, cover, media }: NewShow) => {
   return response.data;
 };
 
-interface UpdateShow {
-  id: string;
-  title: string;
-  media?: File;
-  cover?: File;
-}
-
-export const updateShow = async ({ title, cover, media, id }: UpdateShow) => {
+export const updateShow: MutationFunction<IShow, ShowUpdateMutationFnVariables> = async ({ id, title, cover, media }) => {
   const formData = new FormData();
 
   formData.append('title', title);
@@ -38,4 +32,8 @@ export const updateShow = async ({ title, cover, media, id }: UpdateShow) => {
   return response.data;
 };
 
-export const deleteShow = async (id: string) => axios.delete(`/api/admin/shows/${id}`);
+export const deleteShow = async (id: string) => {
+  const response = await axios.delete<IShow>(`/api/admin/shows/${id}`);
+
+  return response.data;
+};
