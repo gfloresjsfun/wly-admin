@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { IAlbum, NewAlbum } from 'types/albums';
+import { MutationFunction } from '@tanstack/react-query';
+import { IAlbum, AlbumCreateMutationFnVariables, AlbumUpdateMutationFnVariables } from 'types/albums';
 
 export const getAlbums = async () => {
   const response = await axios.get<IAlbum[]>('/api/albums');
@@ -7,7 +8,7 @@ export const getAlbums = async () => {
   return response.data;
 };
 
-export const createAlbum = async ({ title, cover, shows }: NewAlbum) => {
+export const createAlbum: MutationFunction<IAlbum, AlbumCreateMutationFnVariables> = async ({ title, cover, shows }) => {
   const formData = new FormData();
 
   formData.append('title', title);
@@ -26,11 +27,13 @@ export const createAlbum = async ({ title, cover, shows }: NewAlbum) => {
   return response.data;
 };
 
-export const updateAlbum = async ({ title, cover, shows, id }: NewAlbum & { id: string }) => {
+export const updateAlbum: MutationFunction<IAlbum, AlbumUpdateMutationFnVariables> = async ({ id, title, cover, shows }) => {
   const formData = new FormData();
 
   formData.append('title', title);
-  formData.append('cover', cover);
+  if (cover) {
+    formData.append('cover', cover);
+  }
 
   for (let show of shows) {
     formData.append('shows', show);
@@ -42,5 +45,7 @@ export const updateAlbum = async ({ title, cover, shows, id }: NewAlbum & { id: 
 };
 
 export const deleteAlbum = async (id: string) => {
-  return await axios.delete(`/api/admin/albums/${id}`);
+  const response = await axios.delete<IAlbum>(`/api/admin/albums/${id}`);
+
+  return response.data;
 };

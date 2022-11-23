@@ -7,13 +7,27 @@ export interface IAlbum {
   shows: IShow[];
 }
 
-export interface NewAlbum {
-  cover: File;
+export interface AlbumCreateMutationFnVariables {
   title: string;
+  cover: File;
   shows: string[];
 }
+
+export interface AlbumUpdateMutationFnVariables {
+  id: string;
+  title: string;
+  cover: File;
+  shows: string[];
+}
+
+export type AlbumMutationFnVariables = AlbumCreateMutationFnVariables | AlbumUpdateMutationFnVariables;
 
 export interface AlbumCardProps {
   item: IAlbum;
   onDelete: (id: string) => void;
+}
+
+export interface AlbumCardListProps {
+  items: IAlbum[];
+  onDeleteItem: (id: string) => void;
 }
