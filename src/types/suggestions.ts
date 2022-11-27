@@ -11,11 +11,17 @@ export enum PlayableType {
   Album = 'Album'
 }
 
-interface IPlayable {
-  id: string;
-  playable: IShow | IAlbum;
-  playableType: PlayableType;
-}
+type IPlayable =
+  | {
+      id: string;
+      playable: IShow;
+      playableType: PlayableType;
+    }
+  | {
+      id: string;
+      playable: IAlbum;
+      playableType: PlayableType;
+    };
 
 export interface ISuggestion {
   id: string;

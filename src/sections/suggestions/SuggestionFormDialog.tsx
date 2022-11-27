@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -13,18 +13,23 @@ import {
   FormHelperText,
   Autocomplete,
   TextField,
-  Box
+  Box,
+  IconButton,
+  Collapse
 } from '@mui/material';
-import { Edit, Close } from '@mui/icons-material';
-import { ITip, PlayableType, SuggestionMutationFnVariables } from 'types/suggestions';
+import EditIcon from '@mui/icons-material/Edit';
+import CloseIcon from '@mui/icons-material/Close';
+import AddIcon from '@mui/icons-material/Add';
+import { useConfirm } from 'material-ui-confirm';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { useQueries } from '@tanstack/react-query';
 import { ISuggestion } from 'types/suggestions';
 import { getShows } from '_api/shows';
 import { getAlbums } from '_api/albums';
+import { ITip, PlayableType, SuggestionMutationFnVariables } from 'types/suggestions';
 import { IShow } from 'types/shows';
 import { IAlbum } from 'types/albums';
-import TipFormDialog from './TipFormDialog';
+import TipForm from './TipForm';
 import TipItem from './TipItem';
 
 interface SuggestionFormDialogProps {
@@ -50,39 +55,55 @@ const SuggestionFormDialog: React.FC<SuggestionFormDialogProps> = ({ title, open
     }
   });
 
-  const { append: appendTip, fields: tips, remove: removeTip } = useFieldArray({ name: 'tips', control });
+  const { append: appendTip, fields: tips, remove: removeTip, update: updateTip } = useFieldArray({ name: 'tips', control });
 
   const [{ isLoading: isShowsLoading, data: shows }, { isLoading: isAlbumsLoading, data: albums }] = useQueries({
     queries: [
       {
         queryKey: ['shows'],
         queryFn: getShows,
-        select: (data: IShow[]) => data.map((item) => ({ ...item, playableType: PlayableType.Show }))
+        select: (data: IShow[]) => data.map((item) => ({ playable: item, playableType: PlayableType.Show }))
       },
       {
         queryKey: ['albums'],
         queryFn: getAlbums,
-        select: (data: IAlbum[]) => data.map((item) => ({ ...item, playableType: PlayableType.Album }))
+        select: (data: IAlbum[]) => data.map((item) => ({ playable: item, playableType: PlayableType.Album }))
       }
     ]
   });
 
   // tips
-  const handleAddTip = (data: ITip) => {
+  const handleTipAdd = (data: ITip) => {
     appendTip(data);
   };
 
+  const confirm = useConfirm();
   const handleTipDelete = useCallback(
     (idx: number) => {
-      removeTip(idx);
+      confirm({ description: 'Are you sure to delete this item?' }).then(() => removeTip(idx));
     },
-    [removeTip]
+    [confirm, removeTip]
+  );
+
+  const handleTipUpdate = useCallback(
+    (idx: number, tip: ITip) => {
+      updateTip(idx, tip);
+    },
+    [updateTip]
   );
 
   const tipList = useMemo(
-    () => tips.map((item, idx) => <TipItem key={item.id} item={item} onDelete={() => handleTipDelete(idx)} />),
-    [tips, handleTipDelete]
+    () =>
+      tips.map((item, idx) => (
+        <TipItem key={item.id} item={item} onDelete={() => handleTipDelete(idx)} onSave={(tip) => handleTipUpdate(idx, tip)} />
+      )),
+    [tips, handleTipDelete, handleTipUpdate]
   );
+
+  const [tipFormOpen, setTipFormOpen] = useState(false);
+  const handleTipFormCancel = () => {
+    setTipFormOpen(false);
+  };
 
   return (
     <Dialog open={open} maxWidth="md" fullWidth onClose={onClose}>
@@ -120,22 +141,23 @@ const SuggestionFormDialog: React.FC<SuggestionFormDialogProps> = ({ title, open
                     multiple
                     id="tags-outlined"
                     options={[...(shows || []), ...(albums || [])]}
-                    getOptionLabel={(option) => option.title}
+                    defaultValue={initialValues?.playables}
+                    getOptionLabel={(option) => option.playable.title}
                     groupBy={(option) => option.playableType}
                     filterSelectedOptions
-                    isOptionEqualToValue={(opt, val) => opt.id === val.id}
+                    isOptionEqualToValue={(opt, val) => opt.playable.id === val.playable.id}
                     loading={isShowsLoading || isAlbumsLoading}
                     renderInput={(params) => <TextField {...params} id="shows" placeholder="Favorites" />}
                     renderOption={(props, option) => (
                       <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-                        <img loading="lazy" width="20" src={option.coverS3Url} alt="cover" />
-                        {option.title}
+                        <img loading="lazy" width="20" src={option.playable.coverS3Url} alt="cover" />
+                        {option.playable.title}
                       </Box>
                     )}
                     onChange={(e, v) =>
                       setValue(
                         'playables',
-                        v.map((item) => ({ playable: item.id, playableType: item.playableType as PlayableType }))
+                        v.map((item) => ({ playable: item.playable.id, playableType: item.playableType }))
                       )
                     }
                   />
@@ -147,7 +169,15 @@ const SuggestionFormDialog: React.FC<SuggestionFormDialogProps> = ({ title, open
               <Stack spacing={1}>
                 <InputLabel htmlFor="shows">Tips</InputLabel>
                 <Stack>{tipList}</Stack>
-                <TipFormDialog onSubmit={handleAddTip} />
+
+                <Collapse in={!tipFormOpen}>
+                  <IconButton color="primary" size="large" onClick={() => setTipFormOpen(true)}>
+                    <AddIcon />
+                  </IconButton>
+                </Collapse>
+                <Collapse in={tipFormOpen}>
+                  <TipForm onSubmit={handleTipAdd} onCancel={handleTipFormCancel} />
+                </Collapse>
               </Stack>
             </Grid>
           </Grid>
@@ -156,7 +186,7 @@ const SuggestionFormDialog: React.FC<SuggestionFormDialogProps> = ({ title, open
 
       <DialogActions sx={{ px: 3, py: 2 }}>
         <Button variant="contained" color="error" onClick={onClose}>
-          <Close />
+          <CloseIcon />
           Cancel
         </Button>
         <Button type="submit" form="suggestion-edit-dialog-form" variant="contained" color="primary" disabled={isMutating}>
@@ -164,7 +194,7 @@ const SuggestionFormDialog: React.FC<SuggestionFormDialogProps> = ({ title, open
             <CircularProgress size="1.5rem" color="primary" />
           ) : (
             <>
-              <Edit />
+              <EditIcon />
               Update
             </>
           )}

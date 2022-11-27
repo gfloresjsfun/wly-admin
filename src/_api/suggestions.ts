@@ -20,12 +20,13 @@ export const createSuggestion: MutationFunction<ISuggestion, SuggestionCreateMut
 };
 
 export const updateSuggestion: MutationFunction<ISuggestion, SuggestionUpdateMutationFnVariables> = async ({
+  id,
   title,
   description,
   playables,
   tips
 }) => {
-  const response = await axios.post<ISuggestion>('/api/admin/suggestions', { title, description, playables, tips });
+  const response = await axios.put<ISuggestion>(`/api/admin/suggestions/${id}`, { title, description, playables, tips });
 
   return response.data;
 };
