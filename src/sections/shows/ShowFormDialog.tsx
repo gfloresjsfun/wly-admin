@@ -12,40 +12,23 @@ import {
   FormHelperText
 } from '@mui/material';
 import { Edit, Close } from '@mui/icons-material';
-import { ShowMutationFnVariables } from 'types/shows';
+import { IShow, ShowMutationFnVariables } from 'types/shows';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import CoverUpload from 'components/third-party/dropzone/CoverUpload';
 import MediaUpload from 'components/third-party/dropzone/MediaUpload';
 import { getSignedUrl } from '_api/common';
 import { useQuery } from '@tanstack/react-query';
 
-interface InitialValues {
-  title: string;
-  coverS3Url?: string;
-  mediaS3Key?: string;
-}
-
 interface ShowFormDialogProps {
   title: string;
   open: boolean;
-  initialValues?: InitialValues;
+  initialValues?: IShow;
   isMutating: boolean;
   onSubmit: SubmitHandler<ShowMutationFnVariables>;
   onClose: () => void;
 }
 
-const defaultInitialValues = {
-  title: ''
-} as InitialValues;
-
-const ShowFormDialog: React.FC<ShowFormDialogProps> = ({
-  title,
-  open,
-  initialValues = defaultInitialValues,
-  isMutating,
-  onSubmit,
-  onClose
-}) => {
+const ShowFormDialog: React.FC<ShowFormDialogProps> = ({ title, open, initialValues, isMutating, onSubmit, onClose }) => {
   const {
     setValue,
     register,
@@ -54,9 +37,9 @@ const ShowFormDialog: React.FC<ShowFormDialogProps> = ({
   } = useForm<ShowMutationFnVariables>({ defaultValues: initialValues });
 
   const { data: mediaUrl } = useQuery({
-    queryKey: ['mediaUrls', initialValues.mediaS3Key],
-    queryFn: () => getSignedUrl(initialValues.mediaS3Key as string),
-    enabled: !!initialValues.mediaS3Key
+    queryKey: ['mediaUrls', initialValues?.mediaS3Key],
+    queryFn: () => getSignedUrl(initialValues?.mediaS3Key as string),
+    enabled: !!initialValues?.mediaS3Key
   });
 
   return (
@@ -79,7 +62,7 @@ const ShowFormDialog: React.FC<ShowFormDialogProps> = ({
                 </Stack>
                 <Stack spacing={1}>
                   <InputLabel htmlFor="show-title">Cover Image</InputLabel>
-                  <CoverUpload onFile={(v) => setValue('cover', v)} defaultUrl={initialValues.coverS3Url} />
+                  <CoverUpload onFile={(v) => setValue('cover', v)} defaultUrl={initialValues?.coverS3Url} />
 
                   {errors.cover && (
                     <FormHelperText error id="standard-weight-helper-text-title-login">

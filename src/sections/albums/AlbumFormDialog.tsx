@@ -15,47 +15,30 @@ import {
   Box
 } from '@mui/material';
 import { Edit, Close } from '@mui/icons-material';
-import { AlbumMutationFnVariables } from 'types/albums';
+import { AlbumMutationFnVariables, IAlbum } from 'types/albums';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import CoverUpload from 'components/third-party/dropzone/CoverUpload';
 import { getShows } from '_api/shows';
 import { useQuery } from '@tanstack/react-query';
-import { IShow } from 'types/shows';
-
-interface InitialValues {
-  title: string;
-  coverS3Url?: string;
-  shows: IShow[];
-}
 
 interface AlbumFormDialogProps {
   title: string;
   open: boolean;
-  initialValues?: InitialValues;
+  initialValues?: IAlbum;
   isMutating: boolean;
   onSubmit: SubmitHandler<AlbumMutationFnVariables>;
   onClose: () => void;
 }
 
-const defaultInitialValues = {
-  title: '',
-  shows: []
-} as InitialValues;
-
-const AlbumFormDialog: React.FC<AlbumFormDialogProps> = ({
-  title,
-  open,
-  initialValues = defaultInitialValues,
-  isMutating,
-  onSubmit,
-  onClose
-}) => {
+const AlbumFormDialog: React.FC<AlbumFormDialogProps> = ({ title, open, initialValues, isMutating, onSubmit, onClose }) => {
   const {
     setValue,
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<AlbumMutationFnVariables>({ defaultValues: { ...initialValues, shows: initialValues.shows.map(({ id }) => id) } });
+  } = useForm<AlbumMutationFnVariables>({
+    defaultValues: { ...initialValues, shows: Array.isArray(initialValues?.shows) ? initialValues?.shows.map(({ id }) => id) : [] }
+  });
 
   const { data: shows, isLoading: isShowsLoading } = useQuery({ queryKey: ['shows'], queryFn: getShows });
 
@@ -83,7 +66,7 @@ const AlbumFormDialog: React.FC<AlbumFormDialogProps> = ({
                     multiple
                     id="tags-outlined"
                     options={shows || []}
-                    defaultValue={initialValues.shows}
+                    defaultValue={initialValues?.shows}
                     getOptionLabel={(option) => option.title}
                     filterSelectedOptions
                     isOptionEqualToValue={(opt, val) => opt.id === val.id}
@@ -109,7 +92,7 @@ const AlbumFormDialog: React.FC<AlbumFormDialogProps> = ({
             <Grid item xs={12} lg={6}>
               <Stack spacing={1}>
                 <InputLabel htmlFor="album-title">Cover Image</InputLabel>
-                <CoverUpload onFile={(v) => setValue('cover', v)} defaultUrl={initialValues.coverS3Url} />
+                <CoverUpload onFile={(v) => setValue('cover', v)} defaultUrl={initialValues?.coverS3Url} />
 
                 {errors.cover && (
                   <FormHelperText error id="standard-weight-helper-text-title-login">
