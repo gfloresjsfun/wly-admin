@@ -62,7 +62,17 @@ const MainRoutes = {
         },
         {
           path: 'suggestions',
-          element: <Suggestions />
+          element: <Suggestions />,
+          children: [
+            {
+              path: 'create',
+              element: <Suggestions />
+            },
+            {
+              path: ':id/edit',
+              element: <Suggestions />
+            }
+          ]
         }
       ]
     },

@@ -1,17 +1,18 @@
 import { IAlbum } from './albums';
 import { IShow } from './shows';
 
-interface ITip {
+export interface ITip {
   summary: string;
   details: string;
 }
 
-enum PlayableType {
+export enum PlayableType {
   Show = 'Show',
   Album = 'Album'
 }
 
 interface IPlayable {
+  id: string;
   playable: IShow | IAlbum;
   playableType: PlayableType;
 }
@@ -23,3 +24,20 @@ export interface ISuggestion {
   playables: IPlayable[];
   tips?: ITip[];
 }
+
+export interface SuggestionCreateMutationFnVariables {
+  title: string;
+  description: string;
+  playables: { playable: string; playableType: PlayableType }[];
+  tips: ITip[];
+}
+
+export interface SuggestionUpdateMutationFnVariables {
+  id: string;
+  title: string;
+  description: string;
+  playables: { playable: string; playableType: PlayableType }[];
+  tips: ITip[];
+}
+
+export type SuggestionMutationFnVariables = SuggestionCreateMutationFnVariables | SuggestionUpdateMutationFnVariables;

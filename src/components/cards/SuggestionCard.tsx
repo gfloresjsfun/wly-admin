@@ -65,12 +65,12 @@ interface SuggestionCardProps {
 }
 
 const SuggestionCard: React.FC<SuggestionCardProps> = ({ item: { id, title, description, playables, tips }, onDelete }) => {
-  const playableElms = useMemo(() => playables.map(({ playable }) => <PlayableCard key={playable.id} item={playable} />), [playables]);
+  const playableElms = useMemo(() => playables.map(({ playable }, idx) => <PlayableCard key={playable.id} item={playable} />), [playables]);
 
   const tipElms = useMemo(
     () =>
-      tips?.map((tip) => (
-        <Accordion>
+      tips?.map((tip, idx) => (
+        <Accordion key={idx}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
             <Typography>{tip.summary}</Typography>
           </AccordionSummary>
