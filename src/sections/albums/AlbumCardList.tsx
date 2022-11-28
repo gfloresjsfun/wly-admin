@@ -1,9 +1,13 @@
+// react
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
+// mui
 import { Grid, useTheme, IconButton } from '@mui/material';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+// custom
 import AlbumCard from 'components/cards/AlbumCard';
 import MainCard from 'components/MainCard';
+// types
 import { IAlbum } from 'types/albums';
 
 const AlbumCardList: React.FC<{ items: IAlbum[]; onDeleteItem: (id: string) => void }> = ({ items, onDeleteItem }) => {

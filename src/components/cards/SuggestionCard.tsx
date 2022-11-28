@@ -1,4 +1,7 @@
+// react
 import { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
+// mui
 import {
   Card,
   CardContent,
@@ -21,10 +24,12 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+// other
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import { Link } from 'react-router-dom';
+// custom
 import MainCard from 'components/MainCard';
+// types
 import { ISuggestion } from 'types/suggestions';
 import { IAlbum } from 'types/albums';
 import { IShow } from 'types/shows';

@@ -1,9 +1,13 @@
+// react
+import { useState } from 'react';
+// mui
 import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Collapse, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { ITip } from 'types/suggestions';
-import { useState } from 'react';
+// custom
 import TipForm from './TipForm';
+// types
+import { ITip } from 'types/suggestions';
 
 interface TipItemProps {
   item: ITip;

@@ -1,10 +1,16 @@
+// react
 import { SubmitHandler } from 'react-hook-form';
-import { ISuggestion, SuggestionMutationFnVariables, SuggestionCreateMutationFnVariables } from 'types/suggestions';
+// react query
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+// redux
 import { useDispatch } from 'react-redux';
 import { openSnackbar } from 'store/reducers/snackbar';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createSuggestion } from '_api/suggestions';
+// custom
 import SuggestionFormDialog from './SuggestionFormDialog';
+// api
+import { createSuggestion } from '_api/suggestions';
+// types
+import { ISuggestion, SuggestionMutationFnVariables, SuggestionCreateMutationFnVariables } from 'types/suggestions';
 
 interface SuggestionCreateDialogProps {
   open: boolean;

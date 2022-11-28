@@ -1,18 +1,25 @@
+// react
 import { useState, useCallback, useMemo } from 'react';
+import { useMatch, useNavigate, useParams } from 'react-router-dom';
+// mui
 import { CircularProgress, Stack, OutlinedInput } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useConfirm } from 'material-ui-confirm';
+// react query
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import AlbumCreateDialog from 'sections/albums/AlbumCreateDialog';
-import AlbumEditDialog from 'sections/albums/AlbumEditDialog';
-import { getAlbums, deleteAlbum } from '_api/albums';
-import { useMatch, useNavigate, useParams } from 'react-router';
-import AlbumCardList from 'sections/albums/AlbumCardList';
-import MainCard from 'components/MainCard';
-import useDeferredValue from 'hooks/utils/useDeferredValue';
-import { IAlbum } from 'types/albums';
+// redux
 import { useDispatch } from 'react-redux';
 import { openSnackbar } from 'store/reducers/snackbar';
+// custom
+import MainCard from 'components/MainCard';
+import AlbumCreateDialog from 'sections/albums/AlbumCreateDialog';
+import AlbumEditDialog from 'sections/albums/AlbumEditDialog';
+import AlbumCardList from 'sections/albums/AlbumCardList';
+import useDeferredValue from 'hooks/utils/useDeferredValue';
+// api
+import { getAlbums, deleteAlbum } from '_api/albums';
+// types
+import { IAlbum } from 'types/albums';
 
 const Albums: React.FC = () => {
   const { isLoading, data = [] } = useQuery({ queryKey: ['albums'], queryFn: getAlbums });

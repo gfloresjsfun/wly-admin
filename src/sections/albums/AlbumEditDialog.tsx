@@ -1,11 +1,18 @@
-import { IAlbum, AlbumMutationFnVariables, AlbumUpdateMutationFnVariables } from 'types/albums';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import * as yup from 'yup';
-import { updateAlbum } from '_api/albums';
-import { openSnackbar } from 'store/reducers/snackbar';
-import { useDispatch } from 'react-redux';
+// react
 import { SubmitHandler } from 'react-hook-form';
+// react query
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+// redux
+import { useDispatch } from 'react-redux';
+import { openSnackbar } from 'store/reducers/snackbar';
+// other
+import * as yup from 'yup';
+// custom
 import AlbumFormDialog from './AlbumFormDialog';
+// api
+import { updateAlbum } from '_api/albums';
+// types
+import { IAlbum, AlbumMutationFnVariables, AlbumUpdateMutationFnVariables } from 'types/albums';
 
 interface AlbumEditDialogProps {
   open: boolean;

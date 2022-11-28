@@ -1,6 +1,10 @@
+// react
 import { useMemo } from 'react';
+// mui
 import Masonry from '@mui/lab/Masonry';
+// custom
 import SuggestionCard from 'components/cards/SuggestionCard';
+// types
 import { ISuggestion } from 'types/suggestions';
 
 const SuggestionCardMasonry: React.FC<{ items: ISuggestion[]; onDeleteItem: (id: string) => void }> = ({ items, onDeleteItem }) => {

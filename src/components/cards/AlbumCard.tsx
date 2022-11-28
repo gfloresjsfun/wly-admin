@@ -1,19 +1,19 @@
+// react
 import { useState } from 'react';
-import formatDuration from 'format-duration';
-
-// material-ui
+import { Link } from 'react-router-dom';
+// mui
 import { Box, CardMedia, Chip, Typography, IconButton, Stack, Menu, MenuItem, Fade, ListItemIcon, ListItemText } from '@mui/material';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-
+// other
+import formatDuration from 'format-duration';
+// custom
+import MainCard from 'components/MainCard';
+// api
 // types
 import { AlbumCardProps } from 'types/albums';
-
-// project import
-import MainCard from 'components/MainCard';
-import { Link } from 'react-router-dom';
 
 // ==============================|| ALBUM CARD ||============================== //
 

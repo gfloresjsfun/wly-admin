@@ -1,3 +1,6 @@
+// react
+import { SubmitHandler, useForm } from 'react-hook-form';
+// mui
 import {
   Dialog,
   DialogContent,
@@ -16,13 +19,17 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
-import { AlbumMutationFnVariables, IAlbum } from 'types/albums';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import CoverUpload from 'components/third-party/dropzone/CoverUpload';
-import { getShows } from '_api/shows';
+// react query
 import { useQuery } from '@tanstack/react-query';
-import { yupResolver } from '@hookform/resolvers/yup';
+// other
 import { AnyObjectSchema } from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+// custom
+import CoverUpload from 'components/third-party/dropzone/CoverUpload';
+// api
+import { getShows } from '_api/shows';
+// types
+import { AlbumMutationFnVariables, IAlbum } from 'types/albums';
 
 interface AlbumFormDialogProps {
   title: string;

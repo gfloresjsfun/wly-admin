@@ -1,9 +1,15 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { updateSuggestion } from '_api/suggestions';
-import { openSnackbar } from 'store/reducers/snackbar';
-import { useDispatch } from 'react-redux';
+// react
 import { SubmitHandler } from 'react-hook-form';
+// react query
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+// redux
+import { useDispatch } from 'react-redux';
+import { openSnackbar } from 'store/reducers/snackbar';
+// custom
 import SuggestionFormDialog from './SuggestionFormDialog';
+// api
+import { updateSuggestion } from '_api/suggestions';
+// types
 import { ISuggestion, SuggestionMutationFnVariables, SuggestionUpdateMutationFnVariables } from 'types/suggestions';
 
 interface SuggestionEditDialogProps {

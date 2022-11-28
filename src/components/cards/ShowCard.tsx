@@ -1,10 +1,15 @@
+// react
 import { Link } from 'react-router-dom';
-import formatDuration from 'format-duration';
+// mui
 import { Stack, CardContent, CardMedia, CardActions, Typography, Chip, IconButton } from '@mui/material';
 import VideoFileIcon from '@mui/icons-material/VideoFile';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+// other
+import formatDuration from 'format-duration';
+// custom
 import MainCard from 'components/MainCard';
+// types
 import { ShowCardProps } from 'types/shows';
 
 const ShowCard: React.FC<ShowCardProps> = ({ item: { id, title, duration, coverS3Url }, onDelete }) => (

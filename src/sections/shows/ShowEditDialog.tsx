@@ -1,11 +1,18 @@
-import { IShow, ShowMutationFnVariables, ShowUpdateMutationFnVariables } from 'types/shows';
-import * as yup from 'yup';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { updateShow } from '_api/shows';
-import { openSnackbar } from 'store/reducers/snackbar';
-import { useDispatch } from 'react-redux';
+// react
 import { SubmitHandler } from 'react-hook-form';
+// react query
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+// redux
+import { useDispatch } from 'react-redux';
+import { openSnackbar } from 'store/reducers/snackbar';
+// other
+import * as yup from 'yup';
+// custom
 import ShowFormDialog from './ShowFormDialog';
+// api
+import { updateShow } from '_api/shows';
+// types
+import { IShow, ShowMutationFnVariables, ShowUpdateMutationFnVariables } from 'types/shows';
 
 interface ShowEditDialogProps {
   open: boolean;

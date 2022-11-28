@@ -1,9 +1,14 @@
-import { Button, FormHelperText, OutlinedInput, Stack } from '@mui/material';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import MainCard from 'components/MainCard';
+// react
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+// mui
+import { Button, FormHelperText, OutlinedInput, Stack } from '@mui/material';
+// other
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+// custom
+import MainCard from 'components/MainCard';
+// types
 import { ITip } from 'types/suggestions';
 
 interface TipFormProps {

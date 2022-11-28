@@ -1,9 +1,13 @@
+// react
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
+// mui
 import { Grid, IconButton, useTheme } from '@mui/material';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+// custom
 import ShowCard from 'components/cards/ShowCard';
 import MainCard from 'components/MainCard';
+// types
 import { ShowCardListProps } from 'types/shows';
 
 const ShowCardList: React.FC<ShowCardListProps> = ({ items, onDeleteItem }) => {

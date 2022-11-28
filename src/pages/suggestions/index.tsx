@@ -1,18 +1,25 @@
+// react
 import { useCallback, useMemo, useState } from 'react';
+import { Link, useMatch, useNavigate, useParams } from 'react-router-dom';
+// mui
 import { Button, CircularProgress, OutlinedInput, Stack } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
-import { Link, useMatch, useNavigate, useParams } from 'react-router-dom';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import SuggestionCardMasonry from 'sections/suggestions/SuggestionCardMasonry';
-import { deleteSuggestion, getSuggestions } from '_api/suggestions';
-import useDeferredValue from 'hooks/utils/useDeferredValue';
-import MainCard from 'components/MainCard';
-import { useDispatch } from 'react-redux';
 import { useConfirm } from 'material-ui-confirm';
+// react query
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+// redux
+import { useDispatch } from 'react-redux';
 import { openSnackbar } from 'store/reducers/snackbar';
+// custom
+import MainCard from 'components/MainCard';
+import SuggestionCardMasonry from 'sections/suggestions/SuggestionCardMasonry';
 import SuggestionCreateDialog from 'sections/suggestions/SuggestionCreateDialog';
 import SuggestionEditDialog from 'sections/suggestions/SuggestionEditDialog';
+import useDeferredValue from 'hooks/utils/useDeferredValue';
+// api
+import { deleteSuggestion, getSuggestions } from '_api/suggestions';
+// types
 import { ISuggestion } from 'types/suggestions';
 
 const Suggestions: React.FC = () => {

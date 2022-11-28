@@ -1,4 +1,7 @@
+// react
 import { useCallback, useMemo, useState } from 'react';
+import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+// mui
 import {
   Dialog,
   DialogContent,
@@ -21,18 +24,22 @@ import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import { useConfirm } from 'material-ui-confirm';
-import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+// react query
 import { useQueries } from '@tanstack/react-query';
-import { ISuggestion } from 'types/suggestions';
+// other
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+// custom
+import TipForm from './TipForm';
+import TipItem from './TipItem';
+// api
 import { getShows } from '_api/shows';
 import { getAlbums } from '_api/albums';
+// types
+import { ISuggestion } from 'types/suggestions';
 import { ITip, PlayableType, SuggestionMutationFnVariables } from 'types/suggestions';
 import { IShow } from 'types/shows';
 import { IAlbum } from 'types/albums';
-import TipForm from './TipForm';
-import TipItem from './TipItem';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 
 interface SuggestionFormDialogProps {
   title: string;
