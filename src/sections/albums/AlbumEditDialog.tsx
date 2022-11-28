@@ -1,5 +1,6 @@
 import { IAlbum, AlbumMutationFnVariables, AlbumUpdateMutationFnVariables } from 'types/albums';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import * as yup from 'yup';
 import { updateAlbum } from '_api/albums';
 import { openSnackbar } from 'store/reducers/snackbar';
 import { useDispatch } from 'react-redux';
@@ -11,6 +12,21 @@ interface AlbumEditDialogProps {
   item: IAlbum;
   onClose: () => void;
 }
+
+const schema = yup.object().shape(
+  {
+    title: yup.string().required(),
+    shows: yup.array().min(1).of(yup.string()),
+    cover: yup.mixed().when('cover', {
+      is: (exists: any) => !!exists,
+      then: (schema) =>
+        schema
+          .test('fileSize', 'cover image is too large', (value) => value && value.size <= 1 * 1024 * 1024)
+          .test('fileFormat', 'unsupported format', (value) => value && value.type.startsWith('image/'))
+    })
+  },
+  [['cover', 'cover']]
+);
 
 const AlbumEditDialog: React.FC<AlbumEditDialogProps> = ({ open, item, onClose }) => {
   const queryClient = useQueryClient();
@@ -38,6 +54,7 @@ const AlbumEditDialog: React.FC<AlbumEditDialogProps> = ({ open, item, onClose }
       title={`Edit album "${item.title}"`}
       open={open}
       initialValues={item}
+      schema={schema}
       isMutating={isMutating}
       onSubmit={handleUpdate}
       onClose={onClose}

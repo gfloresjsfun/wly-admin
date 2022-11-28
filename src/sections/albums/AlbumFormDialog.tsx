@@ -14,30 +14,35 @@ import {
   TextField,
   Box
 } from '@mui/material';
-import { Edit, Close } from '@mui/icons-material';
+import EditIcon from '@mui/icons-material/Edit';
+import CloseIcon from '@mui/icons-material/Close';
 import { AlbumMutationFnVariables, IAlbum } from 'types/albums';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import CoverUpload from 'components/third-party/dropzone/CoverUpload';
 import { getShows } from '_api/shows';
 import { useQuery } from '@tanstack/react-query';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { AnyObjectSchema } from 'yup';
 
 interface AlbumFormDialogProps {
   title: string;
   open: boolean;
+  schema: AnyObjectSchema;
   initialValues?: IAlbum;
   isMutating: boolean;
   onSubmit: SubmitHandler<AlbumMutationFnVariables>;
   onClose: () => void;
 }
 
-const AlbumFormDialog: React.FC<AlbumFormDialogProps> = ({ title, open, initialValues, isMutating, onSubmit, onClose }) => {
+const AlbumFormDialog: React.FC<AlbumFormDialogProps> = ({ title, open, schema, initialValues, isMutating, onSubmit, onClose }) => {
   const {
     setValue,
     register,
     handleSubmit,
     formState: { errors }
   } = useForm<AlbumMutationFnVariables>({
-    defaultValues: { ...initialValues, shows: Array.isArray(initialValues?.shows) ? initialValues?.shows.map(({ id }) => id) : [] }
+    defaultValues: { ...initialValues, shows: Array.isArray(initialValues?.shows) ? initialValues?.shows.map(({ id }) => id) : [] },
+    resolver: yupResolver(schema)
   });
 
   const { data: shows, isLoading: isShowsLoading } = useQuery({ queryKey: ['shows'], queryFn: getShows });
@@ -46,32 +51,27 @@ const AlbumFormDialog: React.FC<AlbumFormDialogProps> = ({ title, open, initialV
     <Dialog open={open} maxWidth="md" fullWidth onClose={onClose}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
-        <form id="album-edit-dialog-form" onSubmit={handleSubmit(onSubmit)}>
+        <form id="album-dialog-form" onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={3} mt={1}>
             <Grid item xs={12} lg={6}>
               <Stack spacing={2}>
                 <Stack spacing={1}>
                   <InputLabel htmlFor="album-title">Title</InputLabel>
                   <OutlinedInput id="album-title" fullWidth {...register('title', { required: true })} />
-
-                  {errors.title && (
-                    <FormHelperText error id="standard-weight-helper-text-title-login">
-                      {errors.title.message}
-                    </FormHelperText>
-                  )}
+                  {errors.title && <FormHelperText error>{errors.title.message}</FormHelperText>}
                 </Stack>
+
                 <Stack spacing={1}>
-                  <InputLabel htmlFor="shows">Shows</InputLabel>
+                  <InputLabel htmlFor="album-shows">Shows</InputLabel>
                   <Autocomplete
                     multiple
-                    id="tags-outlined"
                     options={shows || []}
                     defaultValue={initialValues?.shows}
                     getOptionLabel={(option) => option.title}
                     filterSelectedOptions
                     isOptionEqualToValue={(opt, val) => opt.id === val.id}
                     loading={isShowsLoading}
-                    renderInput={(params) => <TextField {...params} id="shows" placeholder="Shows" />}
+                    renderInput={(params) => <TextField {...params} id="album-shows" placeholder="Shows" />}
                     renderOption={(props, option) => (
                       <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
                         <img loading="lazy" width="20" src={option.coverS3Url} alt="cover" />
@@ -85,20 +85,17 @@ const AlbumFormDialog: React.FC<AlbumFormDialogProps> = ({ title, open, initialV
                       )
                     }
                   />
+                  {errors.shows && <FormHelperText error>{errors.shows.message}</FormHelperText>}
                 </Stack>
               </Stack>
             </Grid>
 
             <Grid item xs={12} lg={6}>
               <Stack spacing={1}>
-                <InputLabel htmlFor="album-title">Cover Image</InputLabel>
+                <InputLabel>Cover Image</InputLabel>
                 <CoverUpload onFile={(v) => setValue('cover', v)} defaultUrl={initialValues?.coverS3Url} />
 
-                {errors.cover && (
-                  <FormHelperText error id="standard-weight-helper-text-title-login">
-                    {errors.cover.message}
-                  </FormHelperText>
-                )}
+                {errors.cover && <FormHelperText error>{errors.cover.message}</FormHelperText>}
               </Stack>
             </Grid>
           </Grid>
@@ -107,15 +104,15 @@ const AlbumFormDialog: React.FC<AlbumFormDialogProps> = ({ title, open, initialV
 
       <DialogActions sx={{ px: 3, py: 2 }}>
         <Button variant="contained" color="error" onClick={onClose}>
-          <Close />
+          <CloseIcon />
           Cancel
         </Button>
-        <Button type="submit" form="album-edit-dialog-form" variant="contained" color="primary" disabled={isMutating}>
+        <Button type="submit" form="album-dialog-form" variant="contained" color="primary" disabled={isMutating}>
           {isMutating ? (
             <CircularProgress size="1.5rem" color="primary" />
           ) : (
             <>
-              <Edit />
+              <EditIcon />
               Update
             </>
           )}
