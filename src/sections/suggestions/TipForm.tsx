@@ -32,6 +32,11 @@ const TipForm: React.FC<TipFormProps> = ({ initialValues, onSubmit, onCancel }) 
     onSubmit(data);
   };
 
+  const handleCancel = () => {
+    reset({ ...initialValues });
+    onCancel();
+  };
+
   useEffect(() => {
     if (isSubmitSuccessful) {
       reset({ ...initialValues });
@@ -51,7 +56,7 @@ const TipForm: React.FC<TipFormProps> = ({ initialValues, onSubmit, onCancel }) 
           <Button type="submit" size="small" color="primary" variant="contained" onClick={handleSubmit(handleTipSubmit)}>
             Save
           </Button>
-          <Button type="button" size="small" color="error" variant="contained" onClick={onCancel}>
+          <Button type="button" size="small" color="error" variant="contained" onClick={handleCancel}>
             Cancel
           </Button>
         </Stack>
