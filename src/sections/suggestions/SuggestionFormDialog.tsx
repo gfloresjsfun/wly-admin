@@ -73,16 +73,17 @@ const SuggestionFormDialog: React.FC<SuggestionFormDialogProps> = ({ title, open
   });
 
   // tips
-  const handleTipAdd = (data: ITip) => {
-    appendTip(data);
+  const [tipFormOpen, setTipFormOpen] = useState(false);
+  const handleTipFormCancel = () => {
+    setTipFormOpen(false);
   };
 
-  const confirm = useConfirm();
-  const handleTipDelete = useCallback(
-    (idx: number) => {
-      confirm({ description: 'Are you sure to delete this item?' }).then(() => removeTip(idx));
+  const handleTipCreate = useCallback(
+    (data: ITip) => {
+      appendTip(data);
+      setTipFormOpen(false);
     },
-    [confirm, removeTip]
+    [appendTip]
   );
 
   const handleTipUpdate = useCallback(
@@ -92,6 +93,14 @@ const SuggestionFormDialog: React.FC<SuggestionFormDialogProps> = ({ title, open
     [updateTip]
   );
 
+  const confirm = useConfirm();
+  const handleTipDelete = useCallback(
+    (idx: number) => {
+      confirm({ description: 'Are you sure to delete this item?' }).then(() => removeTip(idx));
+    },
+    [confirm, removeTip]
+  );
+
   const tipList = useMemo(
     () =>
       tips.map((item, idx) => (
@@ -99,11 +108,6 @@ const SuggestionFormDialog: React.FC<SuggestionFormDialogProps> = ({ title, open
       )),
     [tips, handleTipDelete, handleTipUpdate]
   );
-
-  const [tipFormOpen, setTipFormOpen] = useState(false);
-  const handleTipFormCancel = () => {
-    setTipFormOpen(false);
-  };
 
   return (
     <Dialog open={open} maxWidth="md" fullWidth onClose={onClose}>
@@ -176,7 +180,7 @@ const SuggestionFormDialog: React.FC<SuggestionFormDialogProps> = ({ title, open
                   </IconButton>
                 </Collapse>
                 <Collapse in={tipFormOpen}>
-                  <TipForm onSubmit={handleTipAdd} onCancel={handleTipFormCancel} />
+                  <TipForm initialValues={{ summary: '', details: '' } as ITip} onSubmit={handleTipCreate} onCancel={handleTipFormCancel} />
                 </Collapse>
               </Stack>
             </Grid>

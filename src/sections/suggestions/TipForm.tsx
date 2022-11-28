@@ -1,5 +1,6 @@
 import { Button, OutlinedInput, Stack } from '@mui/material';
 import MainCard from 'components/MainCard';
+import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ITip } from 'types/suggestions';
 
@@ -10,14 +11,24 @@ interface TipFormProps {
 }
 
 const TipForm: React.FC<TipFormProps> = ({ initialValues, onSubmit, onCancel }) => {
-  const { register, handleSubmit, reset } = useForm<ITip>({
-    defaultValues: initialValues
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isSubmitSuccessful }
+  } = useForm<ITip>({
+    defaultValues: { ...initialValues }
   });
 
   const handleTipSubmit: SubmitHandler<ITip> = (data) => {
     onSubmit(data);
-    reset((formValues) => ({ ...formValues, description: '', title: '' }));
   };
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset({ ...initialValues });
+    }
+  }, [isSubmitSuccessful, initialValues, reset]);
 
   return (
     <MainCard>
