@@ -84,11 +84,7 @@ const AuthLogin = () => {
           <Stack spacing={1}>
             <InputLabel htmlFor="username-login">Username</InputLabel>
             <OutlinedInput id="username-login" placeholder="Enter username" fullWidth {...register('username', { required: true })} />
-            {errors.username && (
-              <FormHelperText error id="standard-weight-helper-text-username-login">
-                {errors.username.message}
-              </FormHelperText>
-            )}
+            {errors.username && <FormHelperText error>{errors.username.message}</FormHelperText>}
           </Stack>
         </Grid>
         <Grid item xs={12}>
@@ -98,7 +94,7 @@ const AuthLogin = () => {
               fullWidth
               color={capsWarning ? 'warning' : 'primary'}
               type={showPassword ? 'text' : 'password'}
-              id="-password-login"
+              id="password-login"
               {...register('password', { required: 'true' })}
               name="password"
               onKeyDown={onKeyDown}
