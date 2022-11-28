@@ -31,6 +31,8 @@ import { IShow } from 'types/shows';
 import { IAlbum } from 'types/albums';
 import TipForm from './TipForm';
 import TipItem from './TipItem';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 interface SuggestionFormDialogProps {
   title: string;
@@ -40,6 +42,27 @@ interface SuggestionFormDialogProps {
   onSubmit: SubmitHandler<SuggestionMutationFnVariables>;
   onClose: () => void;
 }
+
+const schema = yup.object().shape({
+  title: yup.string().required(),
+  description: yup.string().required(),
+  playables: yup
+    .array()
+    .min(1)
+    .of(
+      yup.object().shape({
+        playable: yup.string().required(),
+        playableType: yup.string().oneOf(['Show', 'Album']).required()
+      })
+    )
+    .required(),
+  tips: yup.array().of(
+    yup.object().shape({
+      summary: yup.string().required(),
+      details: yup.string().required()
+    })
+  )
+});
 
 const SuggestionFormDialog: React.FC<SuggestionFormDialogProps> = ({ title, open, initialValues, isMutating, onSubmit, onClose }) => {
   const {
@@ -52,7 +75,8 @@ const SuggestionFormDialog: React.FC<SuggestionFormDialogProps> = ({ title, open
     defaultValues: {
       ...initialValues,
       playables: initialValues?.playables.map((item) => ({ playable: item.playable.id, playableType: item.playableType }))
-    }
+    },
+    resolver: yupResolver(schema)
   });
 
   const { append: appendTip, fields: tips, remove: removeTip, update: updateTip } = useFieldArray({ name: 'tips', control });
@@ -120,30 +144,19 @@ const SuggestionFormDialog: React.FC<SuggestionFormDialogProps> = ({ title, open
                 <Stack spacing={1}>
                   <InputLabel htmlFor="suggestion-title">Title</InputLabel>
                   <OutlinedInput id="suggestion-title" fullWidth {...register('title', { required: true })} />
-
-                  {errors.title && (
-                    <FormHelperText error id="standard-weight-helper-text-title-login">
-                      {errors.title.message}
-                    </FormHelperText>
-                  )}
+                  {errors.title && <FormHelperText error>{errors.title.message}</FormHelperText>}
                 </Stack>
 
                 <Stack spacing={0}>
                   <InputLabel htmlFor="suggestion-description">Description</InputLabel>
                   <OutlinedInput id="suggestion-description" multiline {...register('description', { required: true })} />
-
-                  {errors.description && (
-                    <FormHelperText error id="standard-weight-helper-text-description-login">
-                      {errors.description.message}
-                    </FormHelperText>
-                  )}
+                  {errors.description && <FormHelperText error>{errors.description.message}</FormHelperText>}
                 </Stack>
 
                 <Stack spacing={1}>
                   <InputLabel htmlFor="shows">Shows and Albums</InputLabel>
                   <Autocomplete
                     multiple
-                    id="tags-outlined"
                     options={[...(shows || []), ...(albums || [])]}
                     defaultValue={initialValues?.playables}
                     getOptionLabel={(option) => option.playable.title}
@@ -165,13 +178,14 @@ const SuggestionFormDialog: React.FC<SuggestionFormDialogProps> = ({ title, open
                       )
                     }
                   />
+                  {errors.playables && <FormHelperText error>{errors.playables.message}</FormHelperText>}
                 </Stack>
               </Stack>
             </Grid>
 
             <Grid item xs={12} lg={6}>
               <Stack spacing={1}>
-                <InputLabel htmlFor="shows">Tips</InputLabel>
+                <InputLabel>Tips</InputLabel>
                 <Stack>{tipList}</Stack>
 
                 <Collapse in={!tipFormOpen}>
@@ -179,6 +193,7 @@ const SuggestionFormDialog: React.FC<SuggestionFormDialogProps> = ({ title, open
                     <AddIcon />
                   </IconButton>
                 </Collapse>
+
                 <Collapse in={tipFormOpen}>
                   <TipForm initialValues={{ summary: '', details: '' } as ITip} onSubmit={handleTipCreate} onCancel={handleTipFormCancel} />
                 </Collapse>
