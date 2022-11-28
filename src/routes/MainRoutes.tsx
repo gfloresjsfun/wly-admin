@@ -8,7 +8,6 @@ import AuthGuard from 'utils/route-guard/AuthGuard';
 
 // render - sample page
 import { Navigate } from 'react-router';
-import Suggestions from 'pages/suggestions';
 
 // pages routing
 const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/404')));
@@ -18,6 +17,8 @@ const MaintenanceComingSoon = Loadable(lazy(() => import('pages/maintenance/comi
 
 const Shows = Loadable(lazy(() => import('pages/shows')));
 const Albums = Loadable(lazy(() => import('pages/albums')));
+const Suggestions = Loadable(lazy(() => import('pages/suggestions')));
+const Collections = Loadable(lazy(() => import('pages/collections')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -71,6 +72,20 @@ const MainRoutes = {
             {
               path: ':id/edit',
               element: <Suggestions />
+            }
+          ]
+        },
+        {
+          path: 'collections',
+          element: <Collections />,
+          children: [
+            {
+              path: 'create',
+              element: <Collections />
+            },
+            {
+              path: ':id/edit',
+              element: <Collections />
             }
           ]
         }
