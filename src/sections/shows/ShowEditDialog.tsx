@@ -13,36 +13,33 @@ interface ShowEditDialogProps {
   onClose: () => void;
 }
 
-const schema = yup
-  .object()
-  .shape(
-    {
-      title: yup.string().required(),
-      cover: yup.mixed().when('cover', {
-        is: (exists: any) => !!exists,
-        then: (schema) =>
-          schema
-            .test('fileSize', 'cover image is too large', (value) => value && value.size <= 1 * 1024 * 1024)
-            .test('fileFormat', 'unsupported format', (value) => value && value.type.startsWith('image/'))
-      }),
-      media: yup.mixed().when('media', {
-        is: (exists: any) => !!exists,
-        then: (schema) =>
-          schema
-            .test('fileSize', 'media file is too large', (value) => value && value.size <= 10 * 1024 * 1024)
-            .test(
-              'fileFormat',
-              'unsupported format',
-              (value) => value && (value.type.startsWith('audio/') || value.type.startsWith('video/'))
-            )
-      })
-    },
-    [
-      ['cover', 'cover'],
-      ['media', 'media']
-    ]
-  )
-  .required();
+const schema = yup.object().shape(
+  {
+    title: yup.string().required(),
+    cover: yup.mixed().when('cover', {
+      is: (exists: any) => !!exists,
+      then: (schema) =>
+        schema
+          .test('fileSize', 'cover image is too large', (value) => value && value.size <= 1 * 1024 * 1024)
+          .test('fileFormat', 'unsupported format', (value) => value && value.type.startsWith('image/'))
+    }),
+    media: yup.mixed().when('media', {
+      is: (exists: any) => !!exists,
+      then: (schema) =>
+        schema
+          .test('fileSize', 'media file is too large', (value) => value && value.size <= 10 * 1024 * 1024)
+          .test(
+            'fileFormat',
+            'unsupported format',
+            (value) => value && (value.type.startsWith('audio/') || value.type.startsWith('video/'))
+          )
+    })
+  },
+  [
+    ['cover', 'cover'],
+    ['media', 'media']
+  ]
+);
 
 const ShowEditDialog: React.FC<ShowEditDialogProps> = ({ open, item, onClose }) => {
   const queryClient = useQueryClient();
