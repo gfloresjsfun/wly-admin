@@ -1,4 +1,6 @@
-import { Button, OutlinedInput, Stack } from '@mui/material';
+import { Button, FormHelperText, OutlinedInput, Stack } from '@mui/material';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import MainCard from 'components/MainCard';
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -10,15 +12,21 @@ interface TipFormProps {
   onCancel: () => void;
 }
 
+const schema = yup
+  .object()
+  .shape({
+    summary: yup.string().required(),
+    details: yup.string().required()
+  })
+  .required();
+
 const TipForm: React.FC<TipFormProps> = ({ initialValues, onSubmit, onCancel }) => {
   const {
     register,
     handleSubmit,
     reset,
-    formState: { isSubmitSuccessful }
-  } = useForm<ITip>({
-    defaultValues: { ...initialValues }
-  });
+    formState: { isSubmitSuccessful, errors }
+  } = useForm<ITip>({ defaultValues: { ...initialValues }, resolver: yupResolver(schema) });
 
   const handleTipSubmit: SubmitHandler<ITip> = (data) => {
     onSubmit(data);
@@ -34,7 +42,10 @@ const TipForm: React.FC<TipFormProps> = ({ initialValues, onSubmit, onCancel }) 
     <MainCard>
       <Stack spacing={1}>
         <OutlinedInput {...register('summary', { required: true })} size="small" placeholder="Summary" />
+        {errors.summary && <FormHelperText error>{errors.summary.message}</FormHelperText>}
+
         <OutlinedInput multiline {...register('details', { required: true })} size="small" placeholder="Details" />
+        {errors.details && <FormHelperText error>{errors.details.message}</FormHelperText>}
 
         <Stack direction="row" alignItems="end" gap={1}>
           <Button type="submit" size="small" color="primary" variant="contained" onClick={handleSubmit(handleTipSubmit)}>
