@@ -2,7 +2,7 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import { Movie, Collections, AssistantPhoto, Folder } from '@mui/icons-material';
+import { Movie, Collections, AssistantPhoto, Folder, Healing } from '@mui/icons-material';
 
 // type
 import { NavItemType } from 'types/menu';
@@ -41,6 +41,13 @@ const other: NavItemType = {
       type: 'item',
       url: '/collections',
       icon: Folder
+    },
+    {
+      id: 'painPoints',
+      title: 'Pain Points',
+      type: 'item',
+      url: '/pain-points',
+      icon: Healing
     }
   ]
 };

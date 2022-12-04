@@ -19,6 +19,7 @@ const Shows = Loadable(lazy(() => import('pages/shows')));
 const Albums = Loadable(lazy(() => import('pages/albums')));
 const Suggestions = Loadable(lazy(() => import('pages/suggestions')));
 const Collections = Loadable(lazy(() => import('pages/collections')));
+const PainPoints = Loadable(lazy(() => import('pages/painPoints')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -86,6 +87,20 @@ const MainRoutes = {
             {
               path: ':id/edit',
               element: <Collections />
+            }
+          ]
+        },
+        {
+          path: 'pain-points',
+          element: <PainPoints />,
+          children: [
+            {
+              path: 'create',
+              element: <PainPoints />
+            },
+            {
+              path: ':id/edit',
+              element: <PainPoints />
             }
           ]
         }
