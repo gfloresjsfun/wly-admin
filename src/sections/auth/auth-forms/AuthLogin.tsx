@@ -35,7 +35,7 @@ import { useDispatch } from 'store';
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const schema = Yup.object().shape({
-  username: Yup.string().max(255).required('username is required'),
+  email: Yup.string().email().required('Email is required'),
   password: Yup.string().max(255).required('Password is required')
 });
 
@@ -69,9 +69,9 @@ const AuthLogin = () => {
     }
   };
 
-  const handleLogin: SubmitHandler<Credentials> = async ({ username, password }) => {
+  const handleLogin: SubmitHandler<Credentials> = async ({ email, password }) => {
     try {
-      await login(username, password).then(() => {});
+      await login(email, password).then(() => {});
     } catch (err: any) {
       dispatch(openSnackbar({ open: true, variant: 'alert', alert: { color: 'error' }, message: err.response.data, close: 'false' }));
     }
@@ -82,9 +82,9 @@ const AuthLogin = () => {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Stack spacing={1}>
-            <InputLabel htmlFor="username-login">Username</InputLabel>
-            <OutlinedInput id="username-login" placeholder="Enter username" fullWidth {...register('username', { required: true })} />
-            {errors.username && <FormHelperText error>{errors.username.message}</FormHelperText>}
+            <InputLabel htmlFor="email-login">Username</InputLabel>
+            <OutlinedInput id="email-login" type="email" placeholder="Enter email" fullWidth {...register('email', { required: true })} />
+            {errors.email && <FormHelperText error>{errors.email.message}</FormHelperText>}
           </Stack>
         </Grid>
         <Grid item xs={12}>
