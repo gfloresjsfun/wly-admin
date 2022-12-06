@@ -76,7 +76,7 @@ const PainPoints: React.FC = () => {
         </Stack>
       </MainCard>
 
-      {isLoading ? <CircularProgress /> : <PainPointTable items={items} onDeleteItem={handleDelete} />}
+      {isLoading ? <CircularProgress /> : <PainPointTable items={items} onItemDelete={handleDelete} />}
       {isCreateOpen && <PainPointCreateDialog open={isCreateOpen} onClose={handleClose} />}
       {isEditOpen && itemInEdit && <PainPointEditDialog open={isEditOpen} onClose={handleClose} item={itemInEdit} />}
     </Stack>

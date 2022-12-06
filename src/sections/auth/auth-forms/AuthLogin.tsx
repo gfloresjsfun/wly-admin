@@ -32,8 +32,6 @@ import { Credentials } from 'types/auth';
 import { openSnackbar } from 'store/reducers/snackbar';
 import { useDispatch } from 'store';
 
-// ============================|| FIREBASE - LOGIN ||============================ //
-
 const schema = Yup.object().shape({
   email: Yup.string().email().required('Email is required'),
   password: Yup.string().max(255).required('Password is required')
@@ -82,7 +80,7 @@ const AuthLogin = () => {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Stack spacing={1}>
-            <InputLabel htmlFor="email-login">Username</InputLabel>
+            <InputLabel htmlFor="email-login">Email</InputLabel>
             <OutlinedInput id="email-login" type="email" placeholder="Enter email" fullWidth {...register('email', { required: true })} />
             {errors.email && <FormHelperText error>{errors.email.message}</FormHelperText>}
           </Stack>

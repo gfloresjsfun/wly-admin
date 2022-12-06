@@ -163,7 +163,7 @@ function ReactTable({ columns, data }: { columns: Column<IPainPoint>[]; data: IP
   );
 }
 
-const PainPointTable: React.FC<{ items: IPainPoint[]; onDeleteItem: (id: string) => void }> = ({ items, onDeleteItem }) => {
+const PainPointTable: React.FC<{ items: IPainPoint[]; onItemDelete: (id: string) => void }> = ({ items, onItemDelete }) => {
   const columns = useMemo<Column<IPainPoint>[]>(
     () => [
       {
@@ -209,7 +209,7 @@ const PainPointTable: React.FC<{ items: IPainPoint[]; onDeleteItem: (id: string)
               <IconButton aria-label="edit" size="small" color="primary" component={Link} to={`${id}/edit`}>
                 <EditIcon fontSize="small" />
               </IconButton>
-              <IconButton aria-label="delete" size="small" color="error" onClick={() => onDeleteItem(id)}>
+              <IconButton aria-label="delete" size="small" color="error" onClick={() => onItemDelete(id)}>
                 <DeleteIcon fontSize="small" />
               </IconButton>
             </Stack>
@@ -218,7 +218,7 @@ const PainPointTable: React.FC<{ items: IPainPoint[]; onDeleteItem: (id: string)
         disableGroupBy: true
       }
     ],
-    []
+    [onItemDelete]
   );
 
   return (
