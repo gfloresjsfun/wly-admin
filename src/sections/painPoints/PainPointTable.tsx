@@ -189,8 +189,8 @@ const PainPointTable: React.FC<{ items: IPainPoint[]; onItemDelete: (id: string)
         Cell: ({ value: suggestions }: { value: ISuggestion[] }) => {
           return Array.isArray(suggestions) ? (
             <Stack direction="row" spacing={1}>
-              {suggestions.map(({ title }) => (
-                <Chip label={title} />
+              {suggestions.map(({ id, title }) => (
+                <Chip key={id} label={title} />
               ))}
             </Stack>
           ) : null;

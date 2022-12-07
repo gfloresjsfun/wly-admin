@@ -120,13 +120,22 @@ const PainPointFormDialog: React.FC<PainPointFormDialogProps> = ({ title, open, 
                     defaultValue={initialValues?.group}
                     filterSelectedOptions
                     loading={isGroupsLoading}
-                    renderInput={(params) => <TextField {...params} placeholder="Group" />}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        placeholder="Group"
+                        onChange={(e) => {
+                          setValue('group', e.target.value);
+                        }}
+                      />
+                    )}
                     renderOption={(props, option) => (
                       <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
                         {option}
                       </Box>
                     )}
                     onChange={(e, v) => {
+                      console.log(v);
                       if (v) setValue('group', v);
                     }}
                   />
