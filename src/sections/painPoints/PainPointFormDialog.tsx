@@ -116,6 +116,7 @@ const PainPointFormDialog: React.FC<PainPointFormDialogProps> = ({ title, open, 
                   <InputLabel htmlFor="pain-point-group">Group</InputLabel>
                   <Autocomplete
                     freeSolo
+                    disableClearable
                     options={groups || []}
                     defaultValue={initialValues?.group}
                     filterSelectedOptions
